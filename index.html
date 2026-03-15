@@ -2,152 +2,191 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TITAN | BD SURVEILLANCE OPS</title>
+    <title>TITAN | HD SURVEILLANCE V2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-green: #00ff44; --pink-glow: #ff0055; --dark-bg: #000; --panel-bg: rgba(10, 10, 10, 0.95); }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
-        body { background: var(--dark-bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; padding: 12px; }
+        :root { --neon: #00f2ff; --purple: #bc13fe; --pink: #ff0055; --yellow: #ffea00; --green: #00ff44; --bg: #000000; --panel: rgba(5, 5, 5, 0.98); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; cursor: crosshair; }
+        body { background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* Main Grid Layout */
-        .dashboard { display: grid; grid-template-columns: 350px 1fr 350px; grid-template-rows: 1fr 200px; gap: 15px; height: 100%; }
-        .panel { background: var(--panel-bg); border: 1px solid #1a1a1a; border-radius: 10px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: inset 0 0 15px rgba(0, 255, 68, 0.02); }
-        .header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon-green); padding: 12px; border-bottom: 1px solid #111; letter-spacing: 2px; text-transform: uppercase; background: rgba(255,255,255,0.01); }
+        .container { flex: 1; display: grid; grid-template-columns: 320px 1fr 320px; gap: 10px; padding: 10px; overflow: hidden; }
+        .grid { background: var(--panel); border: 1px solid #111; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
-        /* Left: Camera & Intel */
-        .left-col { display: flex; flex-direction: column; gap: 15px; grid-row: span 2; }
-        .cam-box { flex: 2; position: relative; background: #000; }
-        video { width: 100%; height: 100%; object-fit: cover; }
-        .cam-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; background: var(--pink-glow); border: none; color: #fff; font-family: 'Orbitron'; cursor: pointer; border-radius: 5px; box-shadow: 0 0 25px var(--pink-glow); z-index: 10; font-weight: bold; }
-        
-        .intel-box { flex: 1; padding: 15px; font-size: 12px; line-height: 2.5; color: #888; }
-        .ip-val { color: var(--neon-green); font-family: 'Courier New'; font-weight: bold; }
+        /* Left Panel Sections - Camera Box Enlarged */
+        .left-grid { display: grid; grid-template-rows: 240px 160px 120px 1fr; gap: 8px; background: none; border: none; }
+        .sub-panel { background: #050505; border: 1px solid #151515; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        .panel-header { font-family: 'Orbitron'; font-size: 8px; color: var(--neon); padding: 8px; border-bottom: 1px solid #111; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* Center: BANGLADESH MAP */
-        .center-col { grid-column: 2; position: relative; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #051a05 0%, #000 100%); border: 1px solid rgba(0, 255, 68, 0.1); }
-        .map-container { position: relative; width: 85%; display: flex; align-items: center; justify-content: center; }
-        .map-img { width: 100%; filter: drop-shadow(0 0 20px rgba(0, 255, 68, 0.4)) invert(1) hue-rotate(90deg); opacity: 0.8; }
-        .target-dot { position: absolute; width: 10px; height: 10px; background: var(--pink-glow); border-radius: 50%; box-shadow: 0 0 10px var(--pink-glow); animation: pulse 1.5s infinite; }
+        /* 1. LARGE HD LIVE CAMERA */
+        .live-cam-container { flex: 1; background: #000; position: relative; display: flex; align-items: center; justify-content: center; }
+        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .cam-btn { position: absolute; padding: 12px 20px; background: var(--pink); border: none; color: #fff; font-family: 'Orbitron'; font-size: 10px; cursor: pointer; border-radius: 4px; z-index: 30; box-shadow: 0 0 15px var(--pink); transition: 0.3s; }
+        .cam-btn:hover { transform: scale(1.05); background: #ff1e6e; }
+        .cam-tag { position: absolute; top: 10px; left: 10px; color: var(--pink); font-size: 10px; font-family: 'Orbitron'; animation: blink 1s infinite; z-index: 10; font-weight: bold; }
+        @keyframes blink { 50% { opacity: 0.2; } }
 
-        /* Center Bottom: Access UI */
-        .access-panel { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; border-top: 1px solid var(--pink-glow); background: linear-gradient(to top, #080808, #000); }
-        .access-box { border: 2px solid var(--pink-glow); padding: 20px 60px; border-radius: 8px; color: var(--pink-glow); font-family: 'Orbitron'; text-align: center; font-size: 14px; letter-spacing: 4px; box-shadow: 0 0 20px rgba(255, 0, 85, 0.1); }
+        /* 2. World Map */
+        .map-content { flex: 1; position: relative; background: #010101; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .map-img { width: 100%; height: auto; opacity: 0.35; filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.3); }
+        .marker { position: absolute; width: 6px; height: 6px; border-radius: 50%; animation: pulse-m 2s infinite; box-shadow: 0 0 10px currentColor; }
+        .m-red { color: var(--pink); background: var(--pink); }
+        .m-yellow { color: var(--yellow); background: var(--yellow); }
+        .m-green { color: var(--green); background: var(--green); }
+        @keyframes pulse-m { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.8); opacity: 1; } }
 
-        /* Right: GREEN RADAR & EQ */
-        .right-col { display: flex; flex-direction: column; gap: 15px; grid-row: span 2; }
-        .radar-box { flex: 2; position: relative; display: flex; align-items: center; justify-content: center; background: #000; }
-        .radar-frame { width: 250px; height: 250px; border: 2px solid var(--neon-green); border-radius: 50%; position: relative; background: repeating-radial-gradient(circle, transparent, transparent 25px, rgba(0, 255, 68, 0.05) 26px); }
-        .radar-sweep { position: absolute; width: 50%; height: 50%; top: 0; left: 50%; background: linear-gradient(45deg, transparent, rgba(0, 255, 68, 0.4)); transform-origin: bottom left; animation: sweep 4s linear infinite; border-left: 2px solid var(--neon-green); }
-        .radar-marks { position: absolute; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/grid-me.png'); opacity: 0.1; border-radius: 50%; }
-        @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
+        /* 3. Device Intelligence */
+        .intel-box { padding: 10px; font-size: 10px; color: #555; gap: 4px; }
+        .intel-row { display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding: 3px 0; }
+        .intel-val { color: var(--purple); font-family: 'Courier New'; }
 
-        /* Voice EQ */
-        .sound-box { flex: 1; padding: 20px; display: flex; align-items: flex-end; justify-content: center; gap: 6px; background: #050505; }
-        .bar { width: 10px; background: var(--neon-green); height: 10px; transition: 0.1s; box-shadow: 0 0 10px var(--neon-green); border-radius: 2px 2px 0 0; }
+        /* 4. Coding Box (Streamlined) */
+        .code-stream { flex: 1; padding: 10px; font-family: 'Courier New', monospace; font-size: 10px; color: #004400; overflow: hidden; }
 
-        /* Status Line */
-        .status-line { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; padding: 6px 20px; font-family: 'Courier New'; font-size: 10px; color: var(--neon-green); border-top: 1px solid #111; display: flex; gap: 30px; z-index: 100; opacity: 0.8; }
+        /* Middle Grid AI Core */
+        .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #080808 0%, #000 100%); }
+        .core-visual { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; }
+        .outer-circle { position: absolute; width: 100%; height: 100%; border: 1px solid var(--neon); border-radius: 50%; opacity: 0.2; animation: rotate 15s linear infinite; }
+        .inner-glow { position: absolute; width: 80px; height: 80px; background: radial-gradient(circle, #2a0044 0%, transparent 80%); border-radius: 50%; filter: blur(15px); animation: flux 4s infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes flux { 50% { transform: scale(1.3); opacity: 0.8; } }
+
+        .secret-box { margin-top: 50px; width: 80%; }
+        .secret-input { width: 100%; background: #030303; border: 1px solid #111; border-radius: 30px; padding: 12px; color: #444; font-size: 14px; text-align: center; outline: none; transition: 0.5s; letter-spacing: 2px; }
+        .secret-input:focus { border-color: #222; color: #fff; box-shadow: 0 0 15px rgba(0,242,255,0.05); }
+
+        /* Right Panel History */
+        .chat-view { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg { padding: 10px; border-radius: 6px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .ai-msg { align-self: flex-start; color: #888; border-left: 2px solid var(--pink); background: rgba(255,0,85,0.01); }
+        .user-msg { align-self: flex-end; color: var(--neon); border-right: 2px solid var(--neon); background: rgba(0, 242, 255, 0.01); }
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
-        <div class="left-col">
-            <div class="panel cam-box">
-                <div class="header">SURVEILLANCE_UPLINK</div>
-                <button class="cam-btn" id="startBtn">GRANT ACCESS</button>
-                <video id="webcam" autoplay muted playsinline></video>
-            </div>
-            <div class="panel intel-box">
-                <div class="header">NODE_STATISTICS</div>
-                <div>LOCAL_IP: <span class="ip-val" id="ip">103.25.241.***</span></div>
-                <div>REGION: <span class="ip-val">DHAKA, BANGLADESH</span></div>
-                <div>ENCRYPTION: <span class="ip-val" style="color:var(--pink-glow)">ACTIVE_SSL</span></div>
-                <div>UPLINK: <span class="ip-val">STABLE (1.2ms)</span></div>
-            </div>
-        </div>
-
-        <div class="panel center-col">
-            <div class="header">TARGET_AREA_MONITORING</div>
-            <div class="map-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Flag_of_Bangladesh.svg/1024px-Flag_of_Bangladesh.svg.png" style="display:none;"> <img src="https://www.freeiconspng.com/thumbs/map-of-bangladesh/map-of-bangladesh-png-9.png" class="map-img">
-                <div class="target-dot" style="top:40%; left:50%;"></div>
-                <div class="target-dot" style="top:65%; left:75%;"></div>
-            </div>
-        </div>
-
-        <div class="panel access-panel">
-            <div class="access-box">
-                GRANT PERMISSION<br>& START FEED
-            </div>
-        </div>
-
-        <div class="right-col">
-            <div class="panel radar-box">
-                <div class="header">360_SCANNING_RADAR</div>
-                <div class="radar-frame">
-                    <div class="radar-marks"></div>
-                    <div class="radar-sweep"></div>
+    <div class="container">
+        <div class="grid left-grid">
+            <div class="sub-panel">
+                <div class="cam-tag"><i class="fa fa-circle"></i> HD_LIVE_STREAM</div>
+                <div class="live-cam-container" id="camContainer">
+                    <button class="cam-btn" id="startCam">ALLOW CAMERA ACCESS</button>
+                    <video id="webcam" autoplay muted playsinline></video>
                 </div>
             </div>
-            <div class="panel">
-                <div class="header">AUDIO_FREQ_RESPONSE</div>
-                <div class="sound-box" id="eq"></div>
+            
+            <div class="sub-panel map-box">
+                <div class="panel-header">GLOBAL_SURVEILLANCE</div>
+                <div class="map-content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" class="map-img">
+                    <div class="marker m-red" style="top: 35%; left: 25%;"></div>
+                    <div class="marker m-red" style="top: 48%; left: 58%;"></div>
+                    <div class="marker m-red" style="top: 28%; left: 78%;"></div>
+                    <div class="marker m-yellow" style="top: 68%; left: 32%;"></div>
+                    <div class="marker m-yellow" style="top: 58%; left: 88%;"></div>
+                    <div class="marker m-green" style="top: 78%; left: 55%;"></div>
+                </div>
+            </div>
+
+            <div class="sub-panel">
+                <div class="panel-header">SYSTEM_INTEL</div>
+                <div class="intel-box">
+                    <div class="intel-row"><span>IP_ADDR:</span> <span class="intel-val" id="ipAddr">FETCHING...</span></div>
+                    <div class="intel-row"><span>SEC_TYPE:</span> <span class="intel-val" style="color:var(--green)">ENCRYPTED</span></div>
+                    <div class="intel-row"><span>SIGNAL:</span> <span class="intel-val">EXCELLENT</span></div>
+                </div>
+            </div>
+
+            <div class="sub-panel code-stream" id="codeStream"></div>
+        </div>
+
+        <div class="grid ai-core">
+            <div class="core-visual">
+                <div class="outer-circle"></div>
+                <div class="inner-glow"></div>
+            </div>
+            <div class="secret-box">
+                <input type="text" class="secret-input" id="ttsInput" placeholder="ENTER ENCRYPTED COMMAND..." onkeypress="handleTTS(event)">
             </div>
         </div>
-    </div>
 
-    <div class="status-line" id="statusLine">
-        <span>> TITAN_V5_STABLE</span>
-        <span>> RADAR_TRACKING_ONLINE</span>
-        <span>> ENCRYPTING_SIGNAL...</span>
+        <div class="grid">
+            <div style="padding: 10px; font-family: 'Orbitron'; font-size: 9px; color: var(--purple); border-bottom: 1px solid #111;">COMMAND_LOGS</div>
+            <div class="chat-view" id="chatHistory">
+                <div class="msg ai-msg">বস্, ক্যামেরা বক্সটি বড় করা হয়েছে। 'ALLOW' বাটনে ক্লিক করে পারমিশন দিন।</div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Audio/Video Setup
-        const eq = document.getElementById('eq');
-        const bars = [];
-        for(let i=0; i<15; i++) {
-            const b = document.createElement('div');
-            b.className = 'bar';
-            eq.appendChild(b);
-            bars.push(b);
-        }
+        // Camera Permission Logic with detailed error handling
+        const startBtn = document.getElementById('startCam');
+        const video = document.getElementById('webcam');
 
-        const btn = document.getElementById('startBtn');
-        btn.addEventListener('click', async () => {
+        startBtn.addEventListener('click', async () => {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                document.getElementById('webcam').srcObject = stream;
-                btn.style.display = 'none';
-                
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const analyser = audioCtx.createAnalyser();
-                const source = audioCtx.createMediaStreamSource(stream);
-                source.connect(analyser);
-                analyser.fftSize = 64;
-                const data = new Uint8Array(analyser.frequencyBinCount);
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    analyser.getByteFrequencyData(data);
-                    bars.forEach((bar, i) => {
-                        const val = data[i] || 0;
-                        const h = Math.max(10, (val / 255) * 80);
-                        bar.style.height = h + 'px';
-                        bar.style.opacity = 0.5 + (val / 255);
-                    });
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 1280 }, 
+                        height: { ideal: 720 },
+                        facingMode: "user" 
+                    } 
+                });
+                video.srcObject = stream;
+                startBtn.style.display = 'none';
+                addMsg('ai', "ক্যামেরা সাকসেসফুলি কানেক্ট হয়েছে বস্।");
+            } catch (err) {
+                console.error("Camera Error: ", err);
+                if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                    alert("বস্, ব্রাউজার সেটিংস থেকে ক্যামেরা পারমিশন 'Allow' করুন।");
+                } else {
+                    alert("ক্যামেরা হার্ডওয়্যার খুঁজে পাওয়া যায়নি।");
                 }
-                animate();
-            } catch(e) { alert("Please allow camera/mic access."); }
+            }
         });
 
-        // Fake IP update
+        // Dynamic IP & Logs
         setInterval(() => {
-            document.getElementById('ip').innerText = `103.25.241.${Math.floor(Math.random() * 255)}`;
-        }, 4000);
+            document.getElementById('ipAddr').innerText = `103.25.241.${Math.floor(Math.random() * 255)}`;
+        }, 5000);
+
+        const logs = ["> LINKING...", "> HD_FEED_ENABLED", "> SURVEILLANCE_ON", "> BYPASS_ACTIVE"];
+        setInterval(() => {
+            const el = document.getElementById('codeStream');
+            const d = document.createElement('div');
+            d.innerText = logs[Math.floor(Math.random() * logs.length)] + " [" + Math.random().toString(16).slice(2,5) + "]";
+            el.appendChild(d);
+            if(el.childNodes.length > 8) el.removeChild(el.firstChild);
+            el.scrollTop = el.scrollHeight;
+        }, 900);
+
+        // PREMIUM HD VOICE LOGIC
+        const synth = window.speechSynthesis;
+        function handleTTS(e) {
+            if(e.key === 'Enter' && e.target.value.trim()) {
+                const text = e.target.value;
+                addMsg('user', text);
+                
+                const ut = new SpeechSynthesisUtterance(text);
+                // ভয়েস আরও প্রফেশনাল করার জন্য
+                const voices = synth.getVoices();
+                ut.lang = 'bn-BD';
+                ut.rate = 0.85; // শান্ত এবং গম্ভীর গতি
+                ut.pitch = 0.75; // গম্ভীর টোন
+                ut.volume = 1; 
+                
+                synth.speak(ut);
+                e.target.value = "";
+            }
+        }
+
+        function addMsg(role, text) {
+            const h = document.getElementById('chatHistory');
+            const m = document.createElement('div');
+            m.className = `msg ${role}-msg`;
+            m.innerText = text;
+            h.appendChild(m);
+            h.scrollTop = h.scrollHeight;
+        }
     </script>
 </body>
 </html>
