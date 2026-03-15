@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>TITAN | HEROVEE V4.5</title>
+    <title>TITAN | HEROVEE V5.0 FINAL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -14,7 +14,7 @@
         .grid { background: var(--panel); border: 1px solid #222; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
 
         /* Left Panel */
-        .left-grid { display: grid; grid-template-rows: 250px 200px 100px 1fr; gap: 10px; border: none; }
+        .left-grid { display: grid; grid-template-rows: 250px 220px 100px 1fr; gap: 10px; border: none; }
         .sub-panel { background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; position: relative; }
         .panel-header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 10px; border-bottom: 1px solid #111; letter-spacing: 2px; text-transform: uppercase; background: rgba(0, 242, 255, 0.05); }
 
@@ -23,14 +23,12 @@
         video { width: 100%; height: 100%; object-fit: cover; }
         .cam-btn { position: absolute; padding: 12px 20px; background: var(--pink); border: none; color: #fff; font-family: 'Orbitron'; font-size: 10px; cursor: pointer; border-radius: 4px; box-shadow: 0 0 20px var(--pink); z-index: 5; }
 
-        /* World Map Fix - Detailed SVG */
-        .map-content { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; position: relative; }
-        .map-svg { width: 95%; opacity: 0.3; fill: var(--neon); }
-        .marker { position: absolute; width: 10px; height: 10px; background: var(--pink); border-radius: 50%; box-shadow: 0 0 15px var(--pink); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+        /* Google Map Integration Fix */
+        .map-content { flex: 1; background: #000; position: relative; overflow: hidden; }
+        .map-iframe { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8) contrast(1.2); }
 
         /* Coding Terminal */
-        .code-stream { padding: 12px; color: var(--green); font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; overflow: hidden; }
+        .code-stream { padding: 12px; color: var(--green); font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.6; overflow: hidden; }
 
         /* Middle Core */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
@@ -39,11 +37,16 @@
         .inner-glow { position: absolute; width: 80px; height: 80px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(15px); }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Input Box */
+        /* Chat Input Box (SMS Sent Box Style) */
         .input-container { width: 85%; position: relative; }
-        .secret-input { width: 100%; background: #050505; border: 1px solid var(--neon); border-radius: 5px; padding: 18px; color: var(--neon); font-size: 16px; outline: none; }
+        .secret-input { 
+            width: 100%; background: #050505; border: 1px solid var(--neon); border-radius: 30px; 
+            padding: 18px 60px 18px 25px; color: var(--neon); font-size: 16px; outline: none;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+        .send-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--neon); font-size: 20px; cursor: pointer; }
 
-        /* Logs */
+        /* Right Logs */
         .chat-view { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         .msg { padding: 12px; border-radius: 4px; font-size: 15px; }
         .ai-msg { color: #888; border-left: 3px solid var(--pink); background: rgba(255, 0, 85, 0.02); }
@@ -55,21 +58,17 @@
     <div class="container">
         <div class="grid left-grid">
             <div class="sub-panel">
-                <div class="panel-header">VIDEO_SURVEILLANCE</div>
+                <div class="panel-header">ENCRYPTED_VIDEO_FEED</div>
                 <div class="live-cam-container">
-                    <button class="cam-btn" id="startCam"><i class="fa fa-video"></i> CONNECT FEED</button>
+                    <button class="cam-btn" id="startCam"><i class="fa fa-video"></i> ACCESS FEED</button>
                     <video id="webcam" autoplay muted playsinline></video>
                 </div>
             </div>
             
             <div class="sub-panel">
-                <div class="panel-header">GLOBAL_MAP_SYNC</div>
+                <div class="panel-header">LIVE_MAP_SURVEILLANCE</div>
                 <div class="map-content">
-                    <svg class="map-svg" viewBox="0 0 1000 500">
-                        <path d="M140,160 L180,140 L220,160 L300,140 L400,200 L500,180 L600,250 L750,220 L850,280 L950,250 L950,450 L100,450 Z" opacity="0.4"/>
-                        <path d="M200,300 L300,350 L400,320 L550,400 L700,380 L800,420 L900,400" fill="none" stroke="var(--neon)" stroke-width="1" opacity="0.2"/>
-                    </svg>
-                    <div class="marker" id="mapMarker" style="top: 48%; left: 73%;"></div>
+                    <iframe class="map-iframe" src="https://maps.google.com/maps?q=Bangladesh&t=&z=6&ie=UTF8&iwloc=&output=embed"></iframe>
                 </div>
             </div>
 
@@ -77,7 +76,7 @@
                 <div class="panel-header">NETWORK_INTEL</div>
                 <div style="padding: 10px; font-size: 12px; color: #888;">
                     <div>PUBLIC_IP: <span style="color:var(--neon)" id="ipAddr">FETCHING...</span></div>
-                    <div>STATUS: <span style="color:var(--green)" id="userLoc">ONLINE</span></div>
+                    <div>STATUS: <span style="color:var(--green)">SECURE</span></div>
                 </div>
             </div>
 
@@ -88,30 +87,31 @@
             <div class="core-visual">
                 <div class="outer-circle"></div>
                 <div class="inner-glow"></div>
-                <div style="color: var(--neon); font-family: 'Orbitron'; font-size: 16px; letter-spacing: 5px; z-index: 10;">TITAN V4.5</div>
+                <div style="color: var(--neon); font-family: 'Orbitron'; font-size: 16px; letter-spacing: 5px; z-index: 10;">TITAN V5.0</div>
             </div>
             <div class="input-container">
-                <input type="text" class="secret-input" id="ttsInput" placeholder="COMMAND HERE..." onkeypress="if(event.key==='Enter') sendCmd()">
+                <input type="text" class="secret-input" id="ttsInput" placeholder="TYPE COMMAND..." onkeypress="if(event.key==='Enter') executeCmd()">
+                <button class="send-btn" onclick="executeCmd()"><i class="fa fa-paper-plane"></i></button>
             </div>
         </div>
 
         <div class="grid">
             <div class="panel-header" style="color: var(--purple);">SYSTEM_COMMAND_LOGS</div>
             <div class="chat-view" id="chatHistory">
-                <div class="msg ai-msg">বস্, ম্যাপ এবং আইপি সিস্টেম রিবুট করা হয়েছে।</div>
+                <div class="msg ai-msg">বস্, অরিজিনাল ম্যাপ এবং আইপি সিস্টেম সচল করা হয়েছে।</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Real IP Logic
-        async function getIP() {
+        // Fetch Original IP
+        async function fetchIP() {
             try {
-                const r = await fetch('https://api.ipify.org?format=json');
-                const d = await r.json();
-                document.getElementById('ipAddr').innerText = d.ip;
-                addMsg('ai', `অরিজিনাল আইপি কানেক্টেড: ${d.ip}`);
-            } catch(e) { document.getElementById('ipAddr').innerText = "103.25.xxx.xxx"; }
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                document.getElementById('ipAddr').innerText = data.ip;
+                addMsg('ai', `অরিজিনাল আইপি ডিটেক্ট করা হয়েছে: ${data.ip}`);
+            } catch (e) { document.getElementById('ipAddr').innerText = "103.25.241.xx"; }
         }
 
         // Camera Logic
@@ -122,29 +122,30 @@
                 const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = s;
                 startBtn.style.display = 'none';
-                addMsg('ai', "ক্যামেরা সচল হয়েছে।");
-            } catch(err) { alert("পারমিশন দিন!"); }
+                addMsg('ai', "ভিডিও ফিড অনলাইন।");
+            } catch(err) { alert("ক্যামেরা এক্সেস প্রয়োজন!"); }
         };
 
-        // Terminal
-        const logs = ["> BYPASSING_PROXY", "> ENCRYPTING_IP", "> TARGET_FOUND", "> SYNCING_MAP", "> FEED_SECURED"];
+        // Coding Lines
+        const logs = ["> BYPASSING_PROXY", "> ENCRYPTING_DATA", "> TARGET_FOUND", "> SYNCING_MAP", "> FEED_SECURED"];
         setInterval(() => {
             const el = document.getElementById('codeStream');
             const d = document.createElement('div');
             d.innerText = logs[Math.floor(Math.random()*logs.length)] + " [" + Math.random().toString(16).slice(2,5).toUpperCase() + "]";
             el.appendChild(d);
-            if(el.childNodes.length > 12) el.removeChild(el.firstChild);
-        }, 1000);
+            if(el.childNodes.length > 10) el.removeChild(el.firstChild);
+        }, 1200);
 
-        function sendCmd() {
-            const i = document.getElementById('ttsInput');
-            if(i.value.trim()) {
-                addMsg('user', i.value);
-                const ut = new SpeechSynthesisUtterance(i.value);
+        function executeCmd() {
+            const input = document.getElementById('ttsInput');
+            const val = input.value.trim();
+            if(val) {
+                addMsg('user', val);
+                const ut = new SpeechSynthesisUtterance(val);
                 ut.lang = 'bn-BD';
                 window.speechSynthesis.speak(ut);
-                i.value = "";
-                setTimeout(() => addMsg('ai', "আদেশ গৃহীত হয়েছে।"), 700);
+                input.value = "";
+                setTimeout(() => addMsg('ai', "আদেশ প্রসেস করা হচ্ছে..."), 800);
             }
         }
 
@@ -157,7 +158,7 @@
             h.scrollTop = h.scrollHeight;
         }
 
-        window.onload = getIP;
+        window.onload = fetchIP;
     </script>
 </body>
 </html>
