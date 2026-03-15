@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>TITAN | HEROVEE V5.5 SURVEILLANCE</title>
+    <title>TITAN | HEROVEE V6.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -13,33 +13,30 @@
         .container { flex: 1; display: grid; grid-template-columns: 360px 1fr 360px; gap: 12px; padding: 15px; }
         .grid { background: var(--panel); border: 1px solid #222; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Left Panel */
+        /* Left Panel Layout */
         .left-grid { display: grid; grid-template-rows: 250px 220px 100px 1fr; gap: 10px; border: none; }
         .sub-panel { background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; position: relative; }
         .panel-header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 10px; border-bottom: 1px solid #111; letter-spacing: 2px; text-transform: uppercase; background: rgba(0, 242, 255, 0.05); }
 
-        /* Camera Feed */
+        /* User Provided Map Integration */
+        .map-content { flex: 1; width: 100%; height: 100%; position: relative; }
+        .embed-map-fixed { position: relative; text-align: right; width: 100%; height: 100%; }
+        .embed-map-container { overflow: hidden; background: none!important; width: 100%; height: 100%; }
+        .embed-map-frame { width: 100%!important; height: 100%!important; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8) contrast(1.2); }
+
+        /* Camera */
         .live-cam-container { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
         video { width: 100%; height: 100%; object-fit: cover; }
         .cam-btn { position: absolute; padding: 12px 20px; background: var(--pink); border: none; color: #fff; font-family: 'Orbitron'; font-size: 10px; cursor: pointer; border-radius: 4px; box-shadow: 0 0 20px var(--pink); z-index: 5; }
 
-        /* Integrated Map from User Code */
-        .map-content { flex: 1; width: 100%; height: 100%; position: relative; overflow: hidden; }
-        .embed-map-fixed { position: relative; text-align: right; width: 100%; height: 100%; }
-        .embed-map-container { overflow: hidden; background: none!important; width: 100%; height: 100%; }
-        .embed-map-frame { width: 100%!important; height: 100%!important; filter: invert(90%) hue-rotate(180deg) brightness(0.7) contrast(1.2); }
-
-        /* Coding Terminal Text */
-        .code-stream { padding: 12px; color: var(--green); font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.6; overflow: hidden; }
-
-        /* Middle Core */
+        /* Middle Core UI */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
         .core-visual { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
         .outer-circle { position: absolute; width: 100%; height: 100%; border: 2px solid var(--purple); border-radius: 50%; border-style: dashed; animation: rotate 25s linear infinite; }
         .inner-glow { position: absolute; width: 80px; height: 80px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(15px); }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* SMS Sent Box Style Input */
+        /* SMS Style Input */
         .input-container { width: 85%; position: relative; }
         .secret-input { 
             width: 100%; background: #050505; border: 1px solid var(--neon); border-radius: 30px; 
@@ -48,11 +45,13 @@
         }
         .send-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--neon); font-size: 20px; cursor: pointer; }
 
-        /* Right Logs */
+        /* Chat History */
         .chat-view { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         .msg { padding: 12px; border-radius: 4px; font-size: 15px; }
         .ai-msg { color: #888; border-left: 3px solid var(--pink); background: rgba(255, 0, 85, 0.02); }
         .user-msg { color: var(--neon); border-right: 3px solid var(--neon); align-self: flex-end; text-align: right; }
+        
+        .code-stream { padding: 12px; color: var(--green); font-family: 'Courier New', monospace; font-size: 13px; overflow: hidden; }
     </style>
 </head>
 <body>
@@ -60,29 +59,29 @@
     <div class="container">
         <div class="grid left-grid">
             <div class="sub-panel">
-                <div class="panel-header">VIDEO_SURVEILLANCE</div>
+                <div class="panel-header">ENCRYPTED_FEED</div>
                 <div class="live-cam-container">
-                    <button class="cam-btn" id="startCam"><i class="fa fa-video"></i> INITIALIZE</button>
+                    <button class="cam-btn" id="startCam"><i class="fa fa-video"></i> ACTIVATE</button>
                     <video id="webcam" autoplay muted playsinline></video>
                 </div>
             </div>
             
             <div class="sub-panel">
-                <div class="panel-header">GLOBAL_POSITIONING</div>
+                <div class="panel-header">GLOBAL_SURVEILLANCE_MAP</div>
                 <div class="map-content">
                     <div class="embed-map-fixed">
                         <div class="embed-map-container">
-                            <iframe class="embed-map-frame" frameborder="0" scrolling="no" src="https://maps.google.com/maps?width=360&height=220&hl=en&q=bangladesh&t=p&z=5&ie=UTF8&iwloc=B&output=embed"></iframe>
+                            <iframe class="embed-map-frame" src="https://maps.google.com/maps?width=360&height=220&hl=en&q=bangladesh&t=p&z=5&ie=UTF8&iwloc=B&output=embed"></iframe>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="sub-panel">
-                <div class="panel-header">DEVICE_INTEL</div>
+                <div class="panel-header">NETWORK_STATUS</div>
                 <div style="padding: 10px; font-size: 12px; color: #888;">
-                    <div>PUBLIC_IP: <span style="color:var(--neon)" id="ipAddr">LOCATING...</span></div>
-                    <div>STATUS: <span style="color:var(--green)">SECURE_CONNECTION</span></div>
+                    <div>PUBLIC_IP: <span style="color:var(--neon)" id="ipAddr">FETCHING...</span></div>
+                    <div>VOICE_ENGINE: <span style="color:var(--green)">BANGLA_ACTIVE</span></div>
                 </div>
             </div>
 
@@ -93,34 +92,33 @@
             <div class="core-visual">
                 <div class="outer-circle"></div>
                 <div class="inner-glow"></div>
-                <div style="color: var(--neon); font-family: 'Orbitron'; font-size: 16px; letter-spacing: 5px; z-index: 10;">TITAN V5.5</div>
+                <div style="color: var(--neon); font-family: 'Orbitron'; font-size: 16px; letter-spacing: 5px; z-index: 10;">TITAN V6.0</div>
             </div>
             <div class="input-container">
-                <input type="text" class="secret-input" id="ttsInput" placeholder="ENTER ENCRYPTED COMMAND..." onkeypress="if(event.key==='Enter') executeCmd()">
+                <input type="text" class="secret-input" id="ttsInput" placeholder="টাইপ করুন..." onkeypress="if(event.key==='Enter') executeCmd()">
                 <button class="send-btn" onclick="executeCmd()"><i class="fa fa-paper-plane"></i></button>
             </div>
         </div>
 
         <div class="grid">
-            <div class="panel-header" style="color: var(--purple);">ENCRYPTED_LOGS</div>
+            <div class="panel-header" style="color: var(--purple);">SYSTEM_LOGS</div>
             <div class="chat-view" id="chatHistory">
-                <div class="msg ai-msg">বস্, নতুন ম্যাপ কোড এবং আইপি সিস্টেম আপডেট করা হয়েছে।</div>
+                <div class="msg ai-msg">বস্, অরিজিনাল ম্যাপ বক্স এবং বাংলা ভয়েস সিস্টেম সচল করা হয়েছে।</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Fetch Real IP
-        async function fetchIP() {
+        // Real IP Fetching
+        async function getIP() {
             try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                document.getElementById('ipAddr').innerText = data.ip;
-                addMsg('ai', `অরিজিনাল আইপি কানেক্টেড: ${data.ip}`);
-            } catch (e) { document.getElementById('ipAddr').innerText = "103.25.241.xx"; }
+                const r = await fetch('https://api.ipify.org?format=json');
+                const d = await r.json();
+                document.getElementById('ipAddr').innerText = d.ip;
+            } catch(e) { document.getElementById('ipAddr').innerText = "103.25.xxx.xxx"; }
         }
 
-        // Camera Logic
+        // Camera Initialization
         const startBtn = document.getElementById('startCam');
         const video = document.getElementById('webcam');
         startBtn.onclick = async () => {
@@ -128,30 +126,30 @@
                 const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = s;
                 startBtn.style.display = 'none';
-                addMsg('ai', "HD ক্যামেরা ফিড স্টাবলিশড।");
-            } catch(err) { alert("ক্যামেরা পারমিশন দিন!"); }
+                speakBN("ক্যামেরা ফিড সচল করা হয়েছে।");
+            } catch(err) { alert("ক্যামেরা এক্সেস প্রয়োজন!"); }
         };
 
-        // Terminal Animation
-        const logs = ["> BYPASSING_PROXY", "> ENCRYPTING_DATA", "> TARGET_LOCKED", "> SYNCING_TITAN", "> SIGNAL_STABLE"];
-        setInterval(() => {
-            const el = document.getElementById('codeStream');
-            const d = document.createElement('div');
-            d.innerText = logs[Math.floor(Math.random()*logs.length)] + " [" + Math.random().toString(16).slice(2,5).toUpperCase() + "]";
-            el.appendChild(d);
-            if(el.childNodes.length > 12) el.removeChild(el.firstChild);
-        }, 1000);
+        // Bangla Voice Logic
+        function speakBN(text) {
+            const ut = new SpeechSynthesisUtterance(text);
+            const voices = window.speechSynthesis.getVoices();
+            // বাংলা ভয়েস খোঁজা
+            const bnVoice = voices.find(v => v.lang.includes('bn') || v.name.includes('Bengali'));
+            if (bnVoice) ut.voice = bnVoice;
+            ut.lang = 'bn-BD';
+            ut.rate = 0.9;
+            window.speechSynthesis.speak(ut);
+        }
 
         function executeCmd() {
             const input = document.getElementById('ttsInput');
             const val = input.value.trim();
             if(val) {
                 addMsg('user', val);
-                const ut = new SpeechSynthesisUtterance(val);
-                ut.lang = 'bn-BD';
-                window.speechSynthesis.speak(ut);
+                speakBN(val); // সরাসরি বাংলা ভয়েস আউটপুট
                 input.value = "";
-                setTimeout(() => addMsg('ai', "আদেশ গৃহীত হয়েছে। প্রসেসিং চলছে..."), 700);
+                setTimeout(() => addMsg('ai', "আদেশ প্রসেস করা হচ্ছে..."), 800);
             }
         }
 
@@ -164,7 +162,21 @@
             h.scrollTop = h.scrollHeight;
         }
 
-        window.onload = fetchIP;
+        // Terminal animation
+        const logs = ["> BYPASSING_PROXY", "> ENCRYPTING_IP", "> SYNCING_MAP", "> VOICE_READY"];
+        setInterval(() => {
+            const el = document.getElementById('codeStream');
+            const d = document.createElement('div');
+            d.innerText = logs[Math.floor(Math.random()*logs.length)] + " [" + Math.random().toString(16).slice(2,4).toUpperCase() + "]";
+            el.appendChild(d);
+            if(el.childNodes.length > 10) el.removeChild(el.firstChild);
+        }, 1500);
+
+        window.onload = () => {
+            getIP();
+            // ভয়েস লোড হতে সময় নেয়
+            window.speechSynthesis.onvoiceschanged = () => {};
+        };
     </script>
 </body>
 </html>
