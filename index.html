@@ -2,72 +2,57 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>TITAN | HEROVEE V8.0 ADVANCED</title>
+    <title>HEROVEE V9.0 | AI VOICE CORE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #00f2ff; --purple: #bc13fe; --pink: #ff0055; --green: #00ff44; --bg: #000; --panel: rgba(15, 15, 15, 0.98); }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; cursor: crosshair; }
+        :root { --neon: #00f2ff; --purple: #bc13fe; --pink: #ff0055; --green: #00ff44; --bg: #000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Bengali', sans-serif; cursor: crosshair; }
         body { background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
         .container { flex: 1; display: grid; grid-template-columns: 360px 1fr 360px; gap: 12px; padding: 15px; }
-        .grid { background: var(--panel); border: 1px solid #222; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+        .grid { background: rgba(15, 15, 15, 0.95); border: 1px solid #222; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Left Panel Layout */
-        .left-grid { display: grid; grid-template-rows: 250px 220px 100px 1fr; gap: 10px; border: none; }
+        /* Left Panel */
+        .left-grid { display: grid; grid-template-rows: 250px 220px 1fr; gap: 10px; border: none; }
         .sub-panel { background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; position: relative; }
-        .panel-header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 10px; border-bottom: 1px solid #111; letter-spacing: 2px; text-transform: uppercase; background: rgba(0, 242, 255, 0.05); }
+        .panel-header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 10px; border-bottom: 1px solid #111; letter-spacing: 2px; background: rgba(0, 242, 255, 0.05); }
 
-        /* Camera Feed with Face Scan and Scanner Line */
-        .live-cam-container { flex: 1; height: 100%; position: relative; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        /* Face Scan UI */
+        .cam-box { flex: 1; height: 100%; position: relative; background: #000; }
         video { width: 100%; height: 100%; object-fit: cover; }
-        .cam-btn { position: absolute; padding: 12px 20px; background: var(--pink); border: none; color: #fff; font-family: 'Orbitron'; cursor: pointer; border-radius: 4px; z-index: 10; }
-
-        /* Face Scan Animation Over Camera */
-        #scannerLine {
-            position: absolute; width: 100%; height: 2px;
-            background: rgba(0, 255, 68, 0.7); box-shadow: 0 0 10px var(--green);
-            top: 0; pointer-events: none; opacity: 0;
-            transition: opacity 0.3s;
+        #scanLine { 
+            position: absolute; width: 100%; height: 3px; background: var(--green); 
+            box-shadow: 0 0 15px var(--green); top: 0; z-index: 5; opacity: 0; 
         }
-        
-        .pulse-scanner { animation: scanner-move 2.5s infinite linear; opacity: 1 !important; }
-        @keyframes scanner-move {
-            0% { top: -10%; }
-            50% { top: 110%; }
-            100% { top: -10%; }
-        }
+        .scan-active { animation: moveLine 3s infinite linear; opacity: 1 !important; }
+        @keyframes moveLine { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
 
-        /* map integration */
-        .embed-map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8); }
+        /* Map Section */
+        .map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8); }
 
-        /* Middle Core UI */
+        /* AI Core with HEROVEE */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
-        .core-visual { position: relative; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
-        .outer-circle { position: absolute; width: 100%; height: 100%; border: 2px solid var(--purple); border-radius: 50%; border-style: dashed; animation: rotate 25s linear infinite; }
-        .inner-glow { position: absolute; width: 100px; height: 100px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); }
-        
-        /* HEROVEE Text in Core */
-        .core-text { color: var(--neon); font-family: 'Orbitron'; font-size: 18px; font-weight: bold; letter-spacing: 5px; z-index: 10; text-shadow: 0 0 10px var(--neon); }
+        .visual { position: relative; width: 250px; height: 250px; display: flex; align-items: center; justify-content: center; }
+        .ring { position: absolute; width: 100%; height: 100%; border: 2px dashed var(--purple); border-radius: 50%; animation: rot 20s linear infinite; }
+        .glow { position: absolute; width: 120px; height: 120px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); }
+        .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 22px; font-weight: bold; z-index: 10; text-shadow: 0 0 15px var(--neon); }
+        @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Voice Pulse Animation */
-        .voice-pulse { animation: core-pulse 0.2s infinite alternate !important; }
-        @keyframes core-pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+        /* Voice Animation */
+        .talking { animation: pulse 0.4s infinite alternate !important; }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.3); filter: blur(5px); } }
 
         /* Chat Input */
-        .input-container { width: 85%; position: relative; }
-        .secret-input { 
+        .input-box { width: 85%; position: relative; margin-top: 30px; }
+        .main-input { 
             width: 100%; background: #050505; border: 1px solid var(--neon); border-radius: 30px; 
-            padding: 18px 60px 18px 25px; color: var(--neon); font-size: 16px; outline: none;
+            padding: 18px 25px; color: var(--neon); font-size: 16px; outline: none; text-align: center;
         }
-        .send-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--neon); font-size: 20px; cursor: pointer; }
 
         /* Logs */
-        .chat-view { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 12px; border-radius: 4px; font-size: 15px; }
-        .ai-msg { color: #888; border-left: 3px solid var(--pink); }
-        .user-msg { color: var(--neon); border-right: 3px solid var(--neon); align-self: flex-end; }
-        .code-stream { padding: 12px; color: var(--green); font-size: 13px; }
+        .logs { flex: 1; padding: 15px; overflow-y: auto; font-size: 14px; }
+        .ai-msg { color: #aaa; border-left: 3px solid var(--pink); padding: 8px; margin-bottom: 10px; background: rgba(255,0,85,0.02); }
     </style>
 </head>
 <body>
@@ -75,107 +60,93 @@
     <div class="container">
         <div class="grid left-grid">
             <div class="sub-panel">
-                <div class="panel-header">AI_FACE_SCAN_FEED</div>
-                <div class="live-cam-container">
-                    <button class="cam-btn" id="startCam"><i class="fa fa-crosshairs"></i> START SCANNER</button>
-                    <div id="scannerLine"></div>
-                    <video id="webcam" autoplay muted playsinline></video>
+                <div class="panel-header">FACE_SCAN_SURVEILLANCE</div>
+                <div class="cam-box">
+                    <div id="scanLine"></div>
+                    <video id="v" autoplay muted playsinline></video>
+                    <button id="btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); padding:10px; background:var(--pink); border:none; color:#fff; cursor:pointer;">ACTIVATE SCANNER</button>
                 </div>
             </div>
-            
             <div class="sub-panel">
-                <div class="panel-header">GEOLOCATION_INTEL</div>
-                <iframe class="embed-map-frame" src="https://maps.google.com/maps?width=360&height=220&hl=en&q=bangladesh&t=p&z=5&ie=UTF8&iwloc=B&output=embed"></iframe>
+                <div class="panel-header">POSITION_INTEL</div>
+                <iframe class="map-frame" src="https://maps.google.com/maps?width=360&height=220&hl=en&q=Bangladesh&t=p&z=5&ie=UTF8&iwloc=B&output=embed"></iframe>
             </div>
-
-            <div class="sub-panel">
-                <div class="panel-header">NETWORK_INTEL</div>
-                <div style="padding: 10px; font-size: 12px; color: #888;">
-                    <div>PUBLIC_IP: <span style="color:var(--neon)" id="ipAddr">103.25.xxx.xxx</span></div>
-                    <div>STATUS: <span style="color:var(--green)">BN-BD_ACTIVE</span></div>
-                </div>
+            <div class="sub-panel logs" id="logBox">
+                <div class="ai-msg">সিস্টেম অনলাইন। আপনার আদেশের অপেক্ষায়...</div>
             </div>
-
-            <div class="sub-panel code-stream" id="codeStream"></div>
         </div>
 
         <div class="grid ai-core">
-            <div class="core-visual">
-                <div class="outer-circle"></div>
-                <div class="inner-glow" id="coreGlow"></div>
-                <div class="core-text">HEROVEE</div>
+            <div class="visual">
+                <div class="ring"></div>
+                <div class="glow" id="glow"></div>
+                <div class="herovee-text">HEROVEE</div>
             </div>
-            <div class="input-container">
-                <input type="text" class="secret-input" id="ttsInput" placeholder="টাইপ করুন..." onkeypress="if(event.key==='Enter') executeCmd()">
-                <button class="send-btn" onclick="executeCmd()"><i class="fa fa-paper-plane"></i></button>
+            <div class="input-box">
+                <input type="text" id="in" class="main-input" placeholder="এখানে বাংলা লিখুন..." onkeypress="if(event.key==='Enter') action()">
             </div>
         </div>
 
         <div class="grid">
-            <div class="panel-header" style="color: var(--purple);">SYSTEM_COMMAND_LOGS</div>
-            <div class="chat-view" id="chatHistory">
-                <div class="msg ai-msg">বস্, অরিজিনাল ম্যাপ, বাংলা ভয়েস, এবং ফেস স্ক্যান সিস্টেম সচল।</div>
-            </div>
+            <div class="panel-header" style="color:var(--purple)">ENCRYPTED_DATA_STREAM</div>
+            <div id="stream" style="padding:15px; color:var(--green); font-family:monospace; font-size:12px;"></div>
         </div>
     </div>
 
     <script>
-        // Camera, Scanner and Tracking Logic
-        const startBtn = document.getElementById('startCam');
-        const video = document.getElementById('webcam');
-        const scannerLine = document.getElementById('scannerLine');
-        let synth = window.speechSynthesis;
-
-        startBtn.onclick = async () => {
-            try {
-                const s = await navigator.mediaDevices.getUserMedia({ video: true });
-                video.srcObject = s;
-                startBtn.style.display = 'none';
-                scannerLine.classList.add('pulse-scanner'); // স্ক্যানার লাইন চালু
-                speakBN("টার্গেট ট্র্যাকিং এবং ফেস স্ক্যান সিস্টেম চালু করা হয়েছে।");
-            } catch(err) { alert("ক্যামেরা পারমিশন দিন!"); }
-        };
-
-        // Bangla Voice and Animation synchronization
-        function speakBN(text) {
+        const synth = window.speechSynthesis;
+        
+        // সুন্দর বাংলা ভয়েস সেটআপ
+        function speak(text) {
             if (synth.speaking) synth.cancel();
             const ut = new SpeechSynthesisUtterance(text);
-            ut.lang = 'bn-BD';
-            ut.rate = 0.9;
             
-            ut.onstart = () => { document.getElementById('coreGlow').classList.add('voice-pulse'); }; // তাল মেলানো শুরু
-            ut.onend = () => { document.getElementById('coreGlow').classList.remove('voice-pulse'); }; // তাল মেলানো শেষ
+            // সব ভয়েস থেকে বাংলা ভয়েস খুঁজে বের করা
+            const voices = synth.getVoices();
+            const bnVoice = voices.find(v => v.lang.includes('bn') || v.name.includes('Bengali') || v.name.includes('Microsoft Hemant'));
+            
+            if (bnVoice) ut.voice = bnVoice;
+            ut.lang = 'bn-BD';
+            ut.pitch = 0.8; // একটু গম্ভীর AI ভয়েস
+            ut.rate = 0.9;  // গলার গতি
+            
+            ut.onstart = () => document.getElementById('glow').classList.add('talking');
+            ut.onend = () => document.getElementById('glow').classList.remove('talking');
             
             synth.speak(ut);
         }
 
-        function executeCmd() {
-            const input = document.getElementById('ttsInput');
+        function action() {
+            const input = document.getElementById('in');
             const val = input.value.trim();
             if(val) {
-                addMsg('user', val);
-                speakBN(val);
+                speak(val); // এখন এটি সুন্দর বাংলায় পড়বে
+                const l = document.getElementById('logBox');
+                l.innerHTML += `<div class="ai-msg" style="color:var(--neon)">${val}</div>`;
+                l.scrollTop = l.scrollHeight;
                 input.value = "";
             }
         }
 
-        function addMsg(role, text) {
-            const h = document.getElementById('chatHistory');
-            const m = document.createElement('div');
-            m.className = `msg ${role}-msg`;
-            m.innerText = text;
-            h.appendChild(m);
-            h.scrollTop = h.scrollHeight;
-        }
+        // ক্যামেরা এবং স্ক্যানার
+        document.getElementById('btn').onclick = async function() {
+            try {
+                const s = await navigator.mediaDevices.getUserMedia({ video: true });
+                document.getElementById('v').srcObject = s;
+                this.style.display = 'none';
+                document.getElementById('scanLine').classList.add('scan-active');
+                speak("ফেস স্ক্যানিং শুরু হয়েছে। টার্গেট আইডেন্টিফাইড।");
+            } catch(e) { alert("Camera Error!"); }
+        };
 
-        // Terminal animation
+        // ডাটা স্ট্রিম এনিমেশন
         setInterval(() => {
-            const el = document.getElementById('codeStream');
+            const s = document.getElementById('stream');
             const d = document.createElement('div');
-            d.innerText = "> SYNCING_HEROVEE_CORE [" + Math.random().toString(16).slice(2,5).toUpperCase() + "]";
-            el.appendChild(d);
-            if(el.childNodes.length > 8) el.removeChild(el.firstChild);
-        }, 2000);
+            d.innerText = `> RECV_DATA_SYNC_${Math.random().toString(16).slice(2,6).toUpperCase()}`;
+            s.appendChild(d);
+            if(s.childNodes.length > 20) s.removeChild(s.firstChild);
+        }, 1000);
 
         window.onload = () => { synth.getVoices(); };
     </script>
