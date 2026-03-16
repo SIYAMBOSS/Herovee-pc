@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>HEROVEE V12.0 | DEEPSEEK ACTIVATED</title>
+    <title>HEROVEE V12.0 | VERCEL DEPLOYED</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -13,41 +13,36 @@
         .container { flex: 1; display: grid; grid-template-columns: 320px 1fr 380px; gap: 15px; padding: 15px; }
         .grid { background: rgba(10, 10, 10, 0.9); border: 1px solid #333; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
+        /* Left Panel */
         .left-grid { display: grid; grid-template-rows: 220px 200px 1fr; gap: 10px; border: none; }
         .panel { background: #050505; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; }
-        .header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 8px; border-bottom: 1px solid #111; background: rgba(0,242,255,0.05); text-transform: uppercase; letter-spacing: 1px; }
-        video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); border-bottom: 1px solid #222; }
-        .map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8); }
+        .header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 8px; border-bottom: 1px solid #111; background: rgba(0,242,255,0.05); }
+        video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+        .map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg); }
 
         /* Multi-color Coding Box */
-        .coding-box { padding: 10px; font-family: 'Courier New', monospace; font-size: 11px; overflow-y: hidden; line-height: 1.5; }
-        .c-g { color: var(--green); }
-        .c-p { color: var(--pink); }
-        .c-n { color: var(--neon); }
-        .c-v { color: var(--purple); }
+        .coding-box { padding: 10px; font-family: monospace; font-size: 11px; overflow-y: hidden; }
+        .c-g { color: var(--green); } .c-p { color: var(--pink); } .c-n { color: var(--neon); } .c-v { color: var(--purple); }
 
+        /* Center Ring */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
         .herovee-btn { 
             width: 280px; height: 280px; border-radius: 50%; border: 4px solid var(--purple);
             display: flex; align-items: center; justify-content: center; flex-direction: column;
-            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; 
-            box-shadow: 0 0 30px rgba(188, 19, 254, 0.2);
+            cursor: pointer; transition: 0.3s; position: relative; box-shadow: 0 0 30px rgba(188, 19, 254, 0.3);
         }
-        .herovee-btn:active { transform: scale(0.95); }
-        .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 32px; font-weight: bold; text-shadow: 0 0 15px var(--neon); pointer-events: none; }
-        .status-text { font-size: 11px; color: #555; margin-top: 10px; font-family: 'Orbitron'; letter-spacing: 3px; pointer-events: none; }
-        
-        .pulse-active { animation: pulse 0.7s infinite alternate; border-color: var(--neon) !important; box-shadow: 0 0 60px var(--neon) !important; }
-        @keyframes pulse { from { transform: scale(1); filter: brightness(1); } to { transform: scale(1.08); filter: brightness(1.3); } }
+        .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 32px; font-weight: bold; text-shadow: 0 0 15px var(--neon); }
+        .status-text { font-size: 11px; color: #555; margin-top: 10px; font-family: 'Orbitron'; letter-spacing: 2px; }
+        .pulse-active { animation: pulse 0.6s infinite alternate; border-color: var(--neon) !important; box-shadow: 0 0 60px var(--neon) !important; }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
 
-        .chat-box { flex: 1; display: flex; flex-direction: column; background: #080808; border-left: 1px solid #222; }
-        .msg-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
-        .ai-msg { background: rgba(255, 0, 85, 0.08); border-left: 3px solid var(--pink); padding: 12px; border-radius: 4px; color: #ccc; align-self: flex-start; max-width: 85%; font-size: 14px; box-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .user-msg { background: rgba(0, 242, 255, 0.08); border-right: 3px solid var(--neon); padding: 12px; border-radius: 4px; color: var(--neon); align-self: flex-end; font-size: 14px; }
-        
-        .input-area { padding: 15px; border-top: 1px solid #222; display: flex; gap: 10px; background: #050505; }
-        input { flex: 1; background: #111; border: 1px solid #333; padding: 14px; color: #fff; border-radius: 10px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--neon); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
+        /* Chat UI */
+        .chat-box { flex: 1; display: flex; flex-direction: column; background: #080808; }
+        .msg-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .ai-msg { background: rgba(255, 0, 85, 0.1); border-left: 3px solid var(--pink); padding: 10px; border-radius: 4px; color: #ddd; align-self: flex-start; max-width: 90%; font-size: 14px; }
+        .user-msg { background: rgba(0, 242, 255, 0.1); border-right: 3px solid var(--neon); padding: 10px; border-radius: 4px; color: var(--neon); align-self: flex-end; font-size: 14px; }
+        .input-area { padding: 15px; border-top: 1px solid #222; display: flex; gap: 10px; }
+        input { flex: 1; background: #111; border: 1px solid #333; padding: 12px; color: #fff; border-radius: 8px; outline: none; }
     </style>
 </head>
 <body>
@@ -55,16 +50,15 @@
     <div class="container">
         <div class="grid left-grid">
             <div class="panel">
-                <div class="header"><i class="fas fa-video"></i> visual_uplink_01</div>
+                <div class="header">LIVE_SURVEILLANCE</div>
                 <video id="v" autoplay muted playsinline></video>
             </div>
             <div class="panel">
-                <div class="header"><i class="fas fa-globe"></i> world_node_tracking</div>
-                <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14602.254272231177!2d90.4125!3d23.8103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd"></iframe>
+                <div class="header">GLOBAL_GPS_FEED</div>
+                <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14602.254272231177!2d90.4125181!3d23.810332!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sbn!2sbd!4v1710570000000"></iframe>
             </div>
             <div class="panel coding-box" id="codeStream">
-                <div class="header" style="margin-bottom:8px; color: var(--neon);">deepseek_core_kinetics</div>
-                <div class="c-g">> system_ready: true</div>
+                <div class="header" style="margin-bottom:5px; color: var(--neon);">VERCEL_AI_NODE</div>
             </div>
         </div>
 
@@ -76,44 +70,41 @@
         </div>
 
         <div class="grid chat-box">
-            <div class="header"><i class="fas fa-terminal"></i> secure_comms_v12</div>
+            <div class="header">ENCRYPTED_CHANNEL</div>
             <div class="msg-area" id="msgArea">
-                <div class="ai-msg">স্বাগতম বস্। DeepSeek ইঞ্জিন সক্রিয়। আমি আপনার নির্দেশের অপেক্ষায় আছি।</div>
+                <div class="ai-msg">বস্, আমি হিরোভী। Vercel সার্ভার থেকে সিস্টেম সচল হয়েছে।</div>
             </div>
             <div class="input-area">
-                <input type="text" id="userInput" placeholder="আপনার কমান্ড লিখুন..." onkeypress="if(event.key==='Enter') sendChat()">
+                <input type="text" id="userInput" placeholder="কমান্ড লিখুন..." onkeypress="if(event.key==='Enter') sendChat()">
             </div>
         </div>
     </div>
 
     <script>
-        // DeepSeek API Configuration
         const DEEPSEEK_API_KEY = "Sk-026040ac4ebc43cbbdf08410c8e38bd1";
-        const API_URL = "https://api.deepseek.com/v1/chat/completions";
-
+        
         const synth = window.speechSynthesis;
         let isListening = false;
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
         recognition.lang = 'bn-BD';
-        recognition.continuous = false;
 
         function speak(text) {
             if (synth.speaking) synth.cancel();
             const ut = new SpeechSynthesisUtterance(text);
             const voices = synth.getVoices();
             ut.voice = voices.find(v => v.lang.includes('bn')) || voices[0];
-            ut.pitch = 0.85; 
-            ut.rate = 1.0;
+            ut.pitch = 0.8; ut.rate = 1.0;
             ut.onstart = () => document.getElementById('voiceBtn').classList.add('pulse-active');
             ut.onend = () => document.getElementById('voiceBtn').classList.remove('pulse-active');
             synth.speak(ut);
         }
 
-        // DeepSeek API Call
+        // Vercel Compatible API Call
         async function getAIResponse(prompt) {
             try {
-                const response = await fetch(API_URL, {
+                // DeepSeek URL অনেক সময় 'api.deepseek.com/chat/completions' হয়
+                const res = await fetch("https://api.deepseek.com/chat/completions", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -122,27 +113,31 @@
                     body: JSON.stringify({
                         model: "deepseek-chat",
                         messages: [
-                            { role: "system", content: "You are HEROVEE, an advanced AI created by Sadaf. Speak in smart, commanding yet respectful Bengali." },
+                            { role: "system", content: "You are HEROVEE AI, created by Sadaf. Speak in Bengali." },
                             { role: "user", content: prompt }
-                        ],
-                        stream: false
+                        ]
                     })
                 });
-                const data = await response.json();
+
+                if (!res.ok) {
+                    const error = await res.json();
+                    console.error("DeepSeek Error:", error);
+                    return "বস্, এপিআই রেসপন্স করছে না। সম্ভবত ক্রেডিট শেষ বা কী ব্লক হয়েছে।";
+                }
+
+                const data = await res.json();
                 return data.choices[0].message.content;
             } catch (e) {
-                console.error("API Error:", e);
-                return "বস্, কানেকশনে ত্রুটি দেখা দিচ্ছে। এপিআই কী অথবা সার্ভার চেক করুন।";
+                console.error("CORS or Network Error:", e);
+                return "বস্, Vercel-এ CORS পলিসির কারণে এপিআই ব্লক হতে পারে। দয়া করে লোকাল সার্ভারে চেক করুন।";
             }
         }
 
-        // Voice Control (Tap to start, auto stop)
         function toggleVoice() {
             if (!isListening) {
                 recognition.start();
                 isListening = true;
                 document.getElementById('status').innerText = "LISTENING...";
-                document.getElementById('voiceBtn').style.borderColor = "var(--green)";
             } else {
                 recognition.stop();
                 isListening = false;
@@ -155,7 +150,6 @@
             addMsg('user', speech);
             isListening = false;
             document.getElementById('status').innerText = "THINKING...";
-            
             const response = await getAIResponse(speech);
             addMsg('ai', response);
             speak(response);
@@ -179,23 +173,22 @@
             area.scrollTop = area.scrollHeight;
         }
 
-        // Multi-color Coding Stream Animation
-        const codeColors = ['c-g', 'c-p', 'c-n', 'c-v'];
+        // Multi-color coding stream
+        const colors = ['c-g', 'c-p', 'c-n', 'c-v'];
         setInterval(() => {
             const cs = document.getElementById('codeStream');
             const d = document.createElement('div');
-            const colorClass = codeColors[Math.floor(Math.random() * codeColors.length)];
-            d.className = colorClass;
-            d.innerText = `> ${Math.random().toString(36).substring(2, 11).toUpperCase()}_LOG_INIT`;
+            d.className = colors[Math.floor(Math.random()*colors.length)];
+            d.innerText = `> VERCEL_DEEPLOG_${Math.random().toString(36).substring(7).toUpperCase()}_OK`;
             cs.appendChild(d);
-            if(cs.childNodes.length > 20) cs.removeChild(cs.childNodes[1]);
-        }, 1000);
+            if(cs.childNodes.length > 18) cs.removeChild(cs.childNodes[1]);
+        }, 1200);
 
         async function initCamera() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 document.getElementById('v').srcObject = s;
-            } catch(e) { console.log("Cam feed blocked."); }
+            } catch(e) { console.log("Camera access denied"); }
         }
 
         window.onload = () => { initCamera(); };
