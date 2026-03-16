@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>HEROVEE V10.0 | GROQ AI CORE</title>
+    <title>HEROVEE V11.0 | FIXED CORE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -18,36 +18,38 @@
         .sub-panel { background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; position: relative; }
         .panel-header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 10px; border-bottom: 1px solid #111; letter-spacing: 2px; background: rgba(0, 242, 255, 0.05); }
 
-        /* Face Scan UI */
+        /* Face Scan */
         .cam-box { flex: 1; height: 100%; position: relative; background: #000; }
         video { width: 100%; height: 100%; object-fit: cover; }
         #scanLine { position: absolute; width: 100%; height: 3px; background: var(--green); box-shadow: 0 0 15px var(--green); top: 0; z-index: 5; opacity: 0; }
         .scan-active { animation: moveLine 3s infinite linear; opacity: 1 !important; }
         @keyframes moveLine { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
 
-        /* Map Section */
+        /* Map */
         .map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8); }
 
-        /* AI Core with HEROVEE */
+        /* Text/Logs (Moved to Left Bottom as requested) */
+        .logs { flex: 1; padding: 15px; overflow-y: auto; font-size: 14px; background: #050505; }
+        .ai-msg { color: #aaa; border-left: 3px solid var(--pink); padding: 8px; margin-bottom: 10px; font-size: 13px; }
+        .user-msg { color: var(--neon); text-align: right; padding: 5px; font-size: 13px; border-right: 2px solid var(--neon); margin-bottom: 8px; }
+
+        /* Middle Core */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
         .visual { position: relative; width: 250px; height: 250px; display: flex; align-items: center; justify-content: center; }
         .ring { position: absolute; width: 100%; height: 100%; border: 2px dashed var(--purple); border-radius: 50%; animation: rot 20s linear infinite; }
         .glow { position: absolute; width: 120px; height: 120px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); }
         .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 22px; font-weight: bold; z-index: 10; text-shadow: 0 0 15px var(--neon); }
         @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* Voice Animation */
         .talking { animation: pulse 0.4s infinite alternate !important; }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.25); } }
 
-        /* Chat Input */
+        /* Input Box */
         .input-box { width: 85%; position: relative; margin-top: 30px; }
         .main-input { width: 100%; background: #050505; border: 1px solid var(--neon); border-radius: 30px; padding: 18px 25px; color: var(--neon); font-size: 16px; outline: none; text-align: center; }
 
-        /* Logs */
-        .logs { flex: 1; padding: 15px; overflow-y: auto; font-size: 14px; }
-        .ai-msg { color: #aaa; border-left: 3px solid var(--pink); padding: 8px; margin-bottom: 10px; background: rgba(255,0,85,0.02); }
-        .user-msg { color: var(--neon); text-align: right; padding: 8px; }
+        /* Coding Stream (Moved to Right Panel as requested) */
+        .coding-panel { flex: 1; padding: 15px; color: var(--green); font-family: monospace; font-size: 12px; overflow-y: hidden; background: #020202; }
+        .code-line { margin-bottom: 4px; border-bottom: 1px solid #111; padding-bottom: 2px; }
     </style>
 </head>
 <body>
@@ -55,19 +57,19 @@
     <div class="container">
         <div class="grid left-grid">
             <div class="sub-panel">
-                <div class="panel-header">FACE_SCAN_ACTIVE</div>
+                <div class="panel-header">SCANNER_FEED</div>
                 <div class="cam-box">
                     <div id="scanLine"></div>
                     <video id="v" autoplay muted playsinline></video>
-                    <button id="btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); padding:10px; background:var(--pink); border:none; color:#fff; cursor:pointer;">START SCAN</button>
+                    <button id="btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); padding:10px; background:var(--pink); border:none; color:#fff; cursor:pointer; font-size:10px; font-family:'Orbitron';">ACTIVATE</button>
                 </div>
             </div>
             <div class="sub-panel">
-                <div class="panel-header">SURVEILLANCE_MAP</div>
+                <div class="panel-header">LOCATION_MAP</div>
                 <iframe class="map-frame" src="https://maps.google.com/maps?width=360&height=220&hl=en&q=bangladesh&t=p&z=5&ie=UTF8&iwloc=B&output=embed"></iframe>
             </div>
             <div class="sub-panel logs" id="logBox">
-                <div class="ai-msg">বস্, Groq AI সিস্টেম অনলাইন। আপনি যেকোনো কিছু জিজ্ঞেস করতে পারেন।</div>
+                <div class="ai-msg">বস্, সিস্টেম আপডেট সম্পন্ন। কোডিং বক্স ডানে সরানো হয়েছে।</div>
             </div>
         </div>
 
@@ -78,31 +80,32 @@
                 <div class="herovee-text">HEROVEE</div>
             </div>
             <div class="input-box">
-                <input type="text" id="in" class="main-input" placeholder="এখানে লিখুন..." onkeypress="if(event.key==='Enter') askGroq()">
+                <input type="text" id="in" class="main-input" placeholder="এখানে বাংলা লিখুন..." onkeypress="if(event.key==='Enter') askGroq()">
             </div>
         </div>
 
         <div class="grid">
-            <div class="panel-header" style="color:var(--purple)">ENCRYPTED_LOGS</div>
-            <div id="stream" style="padding:15px; color:var(--green); font-family:monospace; font-size:12px;"></div>
+            <div class="panel-header" style="color:var(--purple)">ENCRYPTED_CODE_STREAM</div>
+            <div id="stream" class="coding-panel"></div>
         </div>
     </div>
 
     <script>
-        const GROQ_API_KEY = "gsk_vXG3L3RyTiB3LYUa1LgJW...Gg"; // আপনার কিটি এখানে বসানো হয়েছে
+        // API KEY setup
+        const GROQ_API_KEY = "gsk_vXG3L3RyTiB3LYUa1LgJWdyb3FY9ZHtWfrcCmKxJ45SnUSziqGg"; 
         const synth = window.speechSynthesis;
 
         function speak(text) {
             if (synth.speaking) synth.cancel();
             const ut = new SpeechSynthesisUtterance(text);
             const voices = synth.getVoices();
-            // ন্যাচারাল হিউম্যান ভয়েস সিলেক্ট করার চেষ্টা
-            const bnVoice = voices.find(v => v.lang.includes('bn') || v.name.includes('Natural') || v.name.includes('Google'));
+            // Human-like Natural Voice Selection
+            const bnVoice = voices.find(v => (v.lang.includes('bn') || v.name.includes('Bengali')) && !v.name.includes('Mobile'));
             
             if (bnVoice) ut.voice = bnVoice;
             ut.lang = 'bn-BD';
-            ut.pitch = 1.0; // হিউম্যান-লাইক পিচ
-            ut.rate = 1.0;  // ন্যাচারাল স্পিড
+            ut.pitch = 1.0;
+            ut.rate = 1.0;
             
             ut.onstart = () => document.getElementById('glow').classList.add('talking');
             ut.onend = () => document.getElementById('glow').classList.remove('talking');
@@ -116,7 +119,7 @@
             if(!prompt) return;
 
             addMsg('user', prompt);
-            input.value = "প্রসেসিং...";
+            input.value = "চিন্তা করছি...";
             input.disabled = true;
 
             try {
@@ -128,17 +131,26 @@
                     },
                     body: JSON.stringify({
                         model: "llama3-8b-8192",
-                        messages: [{ role: "user", content: prompt }]
+                        messages: [
+                            { role: "system", content: "You are HEROVEE, a helpful AI assistant. Always reply in Bengali." },
+                            { role: "user", content: prompt }
+                        ],
+                        temperature: 0.7
                     })
                 });
 
                 const data = await response.json();
-                const aiResponse = data.choices[0].message.content;
                 
-                addMsg('ai', aiResponse);
-                speak(aiResponse); // হিউম্যান ভয়েসে রিপ্লাই
+                if (data.choices && data.choices.length > 0) {
+                    const aiResponse = data.choices[0].message.content;
+                    addMsg('ai', aiResponse);
+                    speak(aiResponse);
+                } else {
+                    throw new Error("Invalid Response");
+                }
             } catch (error) {
-                addMsg('ai', "দুঃখিত বস্, Groq API কানেকশনে সমস্যা হচ্ছে।");
+                console.error(error);
+                addMsg('ai', "বস্, API কানেকশনে সমস্যা হচ্ছে। কী অথবা ইন্টারনেট চেক করুন।");
             } finally {
                 input.value = "";
                 input.disabled = false;
@@ -148,19 +160,33 @@
 
         function addMsg(role, text) {
             const l = document.getElementById('logBox');
-            l.innerHTML += `<div class="${role}-msg">${text}</div>`;
+            const div = document.createElement('div');
+            div.className = `${role}-msg`;
+            div.innerText = text;
+            l.appendChild(div);
             l.scrollTop = l.scrollHeight;
         }
 
+        // Camera & Scanner
         document.getElementById('btn').onclick = async function() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 document.getElementById('v').srcObject = s;
                 this.style.display = 'none';
                 document.getElementById('scanLine').classList.add('scan-active');
-                speak("ফেস স্ক্যানিং শুরু হয়েছে। টার্গেট লক করা হয়েছে।");
-            } catch(e) { alert("Camera Error!"); }
+                speak("সার্ভেইল্যান্স সিস্টেম অনলাইন। ফেস স্ক্যানিং সক্রিয়।");
+            } catch(e) { alert("ক্যামেরা পাওয়া যায়নি!"); }
         };
+
+        // Right Panel Coding Stream logic
+        setInterval(() => {
+            const s = document.getElementById('stream');
+            const d = document.createElement('div');
+            d.className = 'code-line';
+            d.innerText = `[${new Date().toLocaleTimeString()}] > EXEC_SYSCALL_${Math.random().toString(16).slice(2,8).toUpperCase()}`;
+            s.appendChild(d);
+            if(s.childNodes.length > 25) s.removeChild(s.firstChild);
+        }, 800);
 
         window.onload = () => { synth.getVoices(); };
     </script>
