@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>TITAN | HEROVEE V7.0 ULTRA</title>
+    <title>TITAN | HEROVEE V8.0 ADVANCED</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -18,35 +18,43 @@
         .sub-panel { background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; position: relative; }
         .panel-header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 10px; border-bottom: 1px solid #111; letter-spacing: 2px; text-transform: uppercase; background: rgba(0, 242, 255, 0.05); }
 
-        /* Camera with AI Tracking UI */
-        .live-cam-container { flex: 1; height: 100%; position: relative; background: #000; overflow: hidden; }
+        /* Camera Feed with Face Scan and Scanner Line */
+        .live-cam-container { flex: 1; height: 100%; position: relative; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         video { width: 100%; height: 100%; object-fit: cover; }
-        .tracking-box { 
-            position: absolute; border: 2px solid var(--green); width: 80px; height: 80px; 
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            box-shadow: 0 0 15px var(--green); pointer-events: none; opacity: 0;
-            transition: all 0.3s ease;
-        }
-        .tracking-box::before { content: "TARGET_LOCKED"; position: absolute; top: -20px; color: var(--green); font-size: 10px; font-weight: bold; }
-        .cam-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 12px 20px; background: var(--pink); border: none; color: #fff; font-family: 'Orbitron'; cursor: pointer; border-radius: 4px; z-index: 10; }
+        .cam-btn { position: absolute; padding: 12px 20px; background: var(--pink); border: none; color: #fff; font-family: 'Orbitron'; cursor: pointer; border-radius: 4px; z-index: 10; }
 
-        /* Map Integration */
+        /* Face Scan Animation Over Camera */
+        #scannerLine {
+            position: absolute; width: 100%; height: 2px;
+            background: rgba(0, 255, 68, 0.7); box-shadow: 0 0 10px var(--green);
+            top: 0; pointer-events: none; opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .pulse-scanner { animation: scanner-move 2.5s infinite linear; opacity: 1 !important; }
+        @keyframes scanner-move {
+            0% { top: -10%; }
+            50% { top: 110%; }
+            100% { top: -10%; }
+        }
+
+        /* map integration */
         .embed-map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8); }
 
         /* Middle Core UI */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
         .core-visual { position: relative; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
         .outer-circle { position: absolute; width: 100%; height: 100%; border: 2px solid var(--purple); border-radius: 50%; border-style: dashed; animation: rotate 25s linear infinite; }
-        .inner-glow { position: absolute; width: 100px; height: 100px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); transition: transform 0.1s ease; }
+        .inner-glow { position: absolute; width: 100px; height: 100px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); }
         
         /* HEROVEE Text in Core */
         .core-text { color: var(--neon); font-family: 'Orbitron'; font-size: 18px; font-weight: bold; letter-spacing: 5px; z-index: 10; text-shadow: 0 0 10px var(--neon); }
 
         /* Voice Pulse Animation */
-        .pulse-active { animation: core-pulse 0.3s infinite alternate !important; }
-        @keyframes core-pulse { from { transform: scale(1); } to { transform: scale(1.3); } }
+        .voice-pulse { animation: core-pulse 0.2s infinite alternate !important; }
+        @keyframes core-pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
 
-        /* SMS Style Input */
+        /* Chat Input */
         .input-container { width: 85%; position: relative; }
         .secret-input { 
             width: 100%; background: #050505; border: 1px solid var(--neon); border-radius: 30px; 
@@ -67,16 +75,16 @@
     <div class="container">
         <div class="grid left-grid">
             <div class="sub-panel">
-                <div class="panel-header">AI_TRACKING_FEED</div>
-                <div class="live-cam-container" id="camBox">
-                    <button class="cam-btn" id="startCam"><i class="fa fa-crosshairs"></i> START TRACKING</button>
-                    <div class="tracking-box" id="tBox"></div>
+                <div class="panel-header">AI_FACE_SCAN_FEED</div>
+                <div class="live-cam-container">
+                    <button class="cam-btn" id="startCam"><i class="fa fa-crosshairs"></i> START SCANNER</button>
+                    <div id="scannerLine"></div>
                     <video id="webcam" autoplay muted playsinline></video>
                 </div>
             </div>
             
             <div class="sub-panel">
-                <div class="panel-header">LOCATION_INTEL</div>
+                <div class="panel-header">GEOLOCATION_INTEL</div>
                 <iframe class="embed-map-frame" src="https://maps.google.com/maps?width=360&height=220&hl=en&q=bangladesh&t=p&z=5&ie=UTF8&iwloc=B&output=embed"></iframe>
             </div>
 
@@ -84,7 +92,7 @@
                 <div class="panel-header">NETWORK_INTEL</div>
                 <div style="padding: 10px; font-size: 12px; color: #888;">
                     <div>PUBLIC_IP: <span style="color:var(--neon)" id="ipAddr">103.25.xxx.xxx</span></div>
-                    <div>VOICE: <span style="color:var(--green)">BN-BD ACTIVE</span></div>
+                    <div>STATUS: <span style="color:var(--green)">BN-BD_ACTIVE</span></div>
                 </div>
             </div>
 
@@ -106,49 +114,40 @@
         <div class="grid">
             <div class="panel-header" style="color: var(--purple);">SYSTEM_COMMAND_LOGS</div>
             <div class="chat-view" id="chatHistory">
-                <div class="msg ai-msg">বস্, অরিজিনাল ম্যাপ এবং বাংলা ভয়েস সিস্টেম সচল।</div>
+                <div class="msg ai-msg">বস্, অরিজিনাল ম্যাপ, বাংলা ভয়েস, এবং ফেস স্ক্যান সিস্টেম সচল।</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Bangla Voice Logic
-        let synth = window.speechSynthesis;
-        function speakBN(text) {
-            if (synth.speaking) synth.cancel();
-            const ut = new SpeechSynthesisUtterance(text);
-            ut.lang = 'bn-BD';
-            ut.rate = 0.9;
-            
-            // তাল মেলানোর এনিমেশন শুরু
-            ut.onstart = () => { document.getElementById('coreGlow').classList.add('pulse-active'); };
-            ut.onend = () => { document.getElementById('coreGlow').classList.remove('pulse-active'); };
-            
-            synth.speak(ut);
-        }
-
-        // Camera & Tracking Simulation
+        // Camera, Scanner and Tracking Logic
         const startBtn = document.getElementById('startCam');
         const video = document.getElementById('webcam');
-        const tBox = document.getElementById('tBox');
+        const scannerLine = document.getElementById('scannerLine');
+        let synth = window.speechSynthesis;
 
         startBtn.onclick = async () => {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = s;
                 startBtn.style.display = 'none';
-                tBox.style.opacity = '1';
-                speakBN("টার্গেট ট্র্যাকিং সিস্টেম চালু করা হয়েছে।");
-                
-                // ট্র্যাকিং বক্স মুভমেন্ট সিমুলেশন
-                setInterval(() => {
-                    const x = 40 + Math.random() * 20;
-                    const y = 40 + Math.random() * 20;
-                    tBox.style.top = y + "%";
-                    tBox.style.left = x + "%";
-                }, 2000);
+                scannerLine.classList.add('pulse-scanner'); // স্ক্যানার লাইন চালু
+                speakBN("টার্গেট ট্র্যাকিং এবং ফেস স্ক্যান সিস্টেম চালু করা হয়েছে।");
             } catch(err) { alert("ক্যামেরা পারমিশন দিন!"); }
         };
+
+        // Bangla Voice and Animation synchronization
+        function speakBN(text) {
+            if (synth.speaking) synth.cancel();
+            const ut = new SpeechSynthesisUtterance(text);
+            ut.lang = 'bn-BD';
+            ut.rate = 0.9;
+            
+            ut.onstart = () => { document.getElementById('coreGlow').classList.add('voice-pulse'); }; // তাল মেলানো শুরু
+            ut.onend = () => { document.getElementById('coreGlow').classList.remove('voice-pulse'); }; // তাল মেলানো শেষ
+            
+            synth.speak(ut);
+        }
 
         function executeCmd() {
             const input = document.getElementById('ttsInput');
