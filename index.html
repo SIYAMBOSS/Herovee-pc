@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>HEROVEE V11.0 | FIXED CORE</title>
+    <title>HEROVEE V12.0 | ULTIMATE AI INTERFACE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -10,185 +10,175 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Bengali', sans-serif; cursor: crosshair; }
         body { background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        .container { flex: 1; display: grid; grid-template-columns: 360px 1fr 360px; gap: 12px; padding: 15px; }
-        .grid { background: rgba(15, 15, 15, 0.95); border: 1px solid #222; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+        .container { flex: 1; display: grid; grid-template-columns: 320px 1fr 380px; gap: 15px; padding: 15px; }
+        .grid { background: rgba(10, 10, 10, 0.9); border: 1px solid #333; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
-        /* Left Panel */
-        .left-grid { display: grid; grid-template-rows: 250px 220px 1fr; gap: 10px; border: none; }
-        .sub-panel { background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; position: relative; }
-        .panel-header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 10px; border-bottom: 1px solid #111; letter-spacing: 2px; background: rgba(0, 242, 255, 0.05); }
-
-        /* Face Scan */
-        .cam-box { flex: 1; height: 100%; position: relative; background: #000; }
+        /* Left: Camera, Map, Coding */
+        .left-grid { display: grid; grid-template-rows: 220px 200px 1fr; gap: 10px; border: none; }
+        .panel { background: #050505; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; }
+        .header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 8px; border-bottom: 1px solid #111; background: rgba(0,242,255,0.05); }
         video { width: 100%; height: 100%; object-fit: cover; }
-        #scanLine { position: absolute; width: 100%; height: 3px; background: var(--green); box-shadow: 0 0 15px var(--green); top: 0; z-index: 5; opacity: 0; }
-        .scan-active { animation: moveLine 3s infinite linear; opacity: 1 !important; }
-        @keyframes moveLine { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
+        .map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg); }
+        .coding-box { padding: 10px; font-family: monospace; font-size: 11px; color: var(--green); overflow-y: hidden; }
 
-        /* Map */
-        .map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) brightness(0.8); }
-
-        /* Text/Logs (Moved to Left Bottom as requested) */
-        .logs { flex: 1; padding: 15px; overflow-y: auto; font-size: 14px; background: #050505; }
-        .ai-msg { color: #aaa; border-left: 3px solid var(--pink); padding: 8px; margin-bottom: 10px; font-size: 13px; }
-        .user-msg { color: var(--neon); text-align: right; padding: 5px; font-size: 13px; border-right: 2px solid var(--neon); margin-bottom: 8px; }
-
-        /* Middle Core */
+        /* Middle: HEROVEE Voice Core */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
-        .visual { position: relative; width: 250px; height: 250px; display: flex; align-items: center; justify-content: center; }
-        .ring { position: absolute; width: 100%; height: 100%; border: 2px dashed var(--purple); border-radius: 50%; animation: rot 20s linear infinite; }
-        .glow { position: absolute; width: 120px; height: 120px; background: radial-gradient(circle, var(--purple) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); }
-        .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 22px; font-weight: bold; z-index: 10; text-shadow: 0 0 15px var(--neon); }
-        @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .talking { animation: pulse 0.4s infinite alternate !important; }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.25); } }
+        .herovee-btn { 
+            width: 250px; height: 250px; border-radius: 50%; border: 4px solid var(--purple);
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            cursor: pointer; transition: 0.3s; position: relative; box-shadow: 0 0 30px rgba(188, 19, 254, 0.2);
+        }
+        .herovee-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--purple); }
+        .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 24px; font-weight: bold; text-shadow: 0 0 10px var(--neon); }
+        .status-text { font-size: 12px; color: #666; margin-top: 10px; font-family: 'Orbitron'; }
+        .pulse-active { animation: pulse 0.5s infinite alternate; border-color: var(--neon) !important; }
+        @keyframes pulse { from { transform: scale(1); filter: brightness(1); } to { transform: scale(1.15); filter: brightness(1.5); } }
 
-        /* Input Box */
-        .input-box { width: 85%; position: relative; margin-top: 30px; }
-        .main-input { width: 100%; background: #050505; border: 1px solid var(--neon); border-radius: 30px; padding: 18px 25px; color: var(--neon); font-size: 16px; outline: none; text-align: center; }
-
-        /* Coding Stream (Moved to Right Panel as requested) */
-        .coding-panel { flex: 1; padding: 15px; color: var(--green); font-family: monospace; font-size: 12px; overflow-y: hidden; background: #020202; }
-        .code-line { margin-bottom: 4px; border-bottom: 1px solid #111; padding-bottom: 2px; }
+        /* Right: Text Chat Box */
+        .chat-box { flex: 1; display: flex; flex-direction: column; background: #080808; }
+        .msg-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .ai-msg { background: rgba(255, 0, 85, 0.1); border-left: 3px solid var(--pink); padding: 10px; border-radius: 4px; color: #ddd; align-self: flex-start; max-width: 90%; }
+        .user-msg { background: rgba(0, 242, 255, 0.1); border-right: 3px solid var(--neon); padding: 10px; border-radius: 4px; color: var(--neon); align-self: flex-end; }
+        .input-area { padding: 15px; border-top: 1px solid #222; display: flex; gap: 10px; }
+        input { flex: 1; background: #111; border: 1px solid #333; padding: 12px; color: #fff; border-radius: 8px; outline: none; }
+        input:focus { border-color: var(--neon); }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="grid left-grid">
-            <div class="sub-panel">
-                <div class="panel-header">SCANNER_FEED</div>
-                <div class="cam-box">
-                    <div id="scanLine"></div>
-                    <video id="v" autoplay muted playsinline></video>
-                    <button id="btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); padding:10px; background:var(--pink); border:none; color:#fff; cursor:pointer; font-size:10px; font-family:'Orbitron';">ACTIVATE</button>
-                </div>
+            <div class="panel">
+                <div class="header">SYSTEM_EYE_01</div>
+                <video id="v" autoplay muted playsinline></video>
             </div>
-            <div class="sub-panel">
-                <div class="panel-header">LOCATION_MAP</div>
-                <iframe class="map-frame" src="https://maps.google.com/maps?width=360&height=220&hl=en&q=bangladesh&t=p&z=5&ie=UTF8&iwloc=B&output=embed"></iframe>
+            <div class="panel">
+                <div class="header">GEO_TRACKING</div>
+                <iframe class="map-frame" src="https://maps.google.com/maps?q=Bangladesh&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
             </div>
-            <div class="sub-panel logs" id="logBox">
-                <div class="ai-msg">বস্, সিস্টেম আপডেট সম্পন্ন। কোডিং বক্স ডানে সরানো হয়েছে।</div>
+            <div class="panel coding-box" id="codeStream">
+                <div class="header" style="margin-bottom:5px;">CORE_KINETICS</div>
             </div>
         </div>
 
         <div class="grid ai-core">
-            <div class="visual">
-                <div class="ring"></div>
-                <div class="glow" id="glow"></div>
+            <div class="herovee-btn" id="voiceBtn" onclick="toggleLiveVoice()">
                 <div class="herovee-text">HEROVEE</div>
-            </div>
-            <div class="input-box">
-                <input type="text" id="in" class="main-input" placeholder="এখানে বাংলা লিখুন..." onkeypress="if(event.key==='Enter') askGroq()">
+                <div class="status-text" id="status">TAP TO SPEAK</div>
             </div>
         </div>
 
-        <div class="grid">
-            <div class="panel-header" style="color:var(--purple)">ENCRYPTED_CODE_STREAM</div>
-            <div id="stream" class="coding-panel"></div>
+        <div class="grid chat-box">
+            <div class="header">SECURE_COMMUNICATION</div>
+            <div class="msg-area" id="msgArea">
+                <div class="ai-msg">বস্, আমি প্রস্তুত। চ্যাট করতে পারেন অথবা মাঝখানে চাপ দিয়ে সরাসরি কথা বলতে পারেন।</div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="এখানে মেসেজ লিখুন..." onkeypress="if(event.key==='Enter') sendChat()">
+            </div>
         </div>
     </div>
 
     <script>
-        // API KEY setup
-        const GROQ_API_KEY = "gsk_vXG3L3RyTiB3LYUa1LgJWdyb3FY9ZHtWfrcCmKxJ45SnUSziqGg"; 
+        const GROQ_API_KEY = "gsk_vXG3L3RyTiB3LYUa1LgJWdyb3FY9ZHtWfrcCmKxJ45SnUSziqGg"; //
         const synth = window.speechSynthesis;
+        let isListening = false;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'bn-BD';
 
+        // ন্যাচারাল ভয়েস ফাংশন
         function speak(text) {
             if (synth.speaking) synth.cancel();
             const ut = new SpeechSynthesisUtterance(text);
             const voices = synth.getVoices();
-            // Human-like Natural Voice Selection
-            const bnVoice = voices.find(v => (v.lang.includes('bn') || v.name.includes('Bengali')) && !v.name.includes('Mobile'));
-            
-            if (bnVoice) ut.voice = bnVoice;
-            ut.lang = 'bn-BD';
-            ut.pitch = 1.0;
-            ut.rate = 1.0;
-            
-            ut.onstart = () => document.getElementById('glow').classList.add('talking');
-            ut.onend = () => document.getElementById('glow').classList.remove('talking');
-            
+            ut.voice = voices.find(v => v.lang.includes('bn')) || voices[0];
+            ut.pitch = 1.0; ut.rate = 1.0;
+            ut.onstart = () => document.getElementById('voiceBtn').classList.add('pulse-active');
+            ut.onend = () => document.getElementById('voiceBtn').classList.remove('pulse-active');
             synth.speak(ut);
         }
 
-        async function askGroq() {
-            const input = document.getElementById('in');
+        // Groq AI API Call
+        async function getAIResponse(prompt) {
+            try {
+                const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${GROQ_API_KEY}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: "llama3-8b-8192",
+                        messages: [{ role: "system", content: "You are HEROVEE, an advanced AI. Speak in human-like Bengali." }, { role: "user", content: prompt }]
+                    })
+                });
+                const data = await res.json();
+                return data.choices[0].message.content;
+            } catch (e) { return "বস্, কানেকশনে সমস্যা হচ্ছে।"; }
+        }
+
+        // Text Chat Logic
+        async function sendChat() {
+            const input = document.getElementById('userInput');
             const prompt = input.value.trim();
             if(!prompt) return;
 
             addMsg('user', prompt);
-            input.value = "চিন্তা করছি...";
-            input.disabled = true;
-
-            try {
-                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${GROQ_API_KEY}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: "llama3-8b-8192",
-                        messages: [
-                            { role: "system", content: "You are HEROVEE, a helpful AI assistant. Always reply in Bengali." },
-                            { role: "user", content: prompt }
-                        ],
-                        temperature: 0.7
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.choices && data.choices.length > 0) {
-                    const aiResponse = data.choices[0].message.content;
-                    addMsg('ai', aiResponse);
-                    speak(aiResponse);
-                } else {
-                    throw new Error("Invalid Response");
-                }
-            } catch (error) {
-                console.error(error);
-                addMsg('ai', "বস্, API কানেকশনে সমস্যা হচ্ছে। কী অথবা ইন্টারনেট চেক করুন।");
-            } finally {
-                input.value = "";
-                input.disabled = false;
-                input.focus();
-            }
+            input.value = "";
+            const response = await getAIResponse(prompt);
+            addMsg('ai', response);
+            speak(response);
         }
 
         function addMsg(role, text) {
-            const l = document.getElementById('logBox');
-            const div = document.createElement('div');
-            div.className = `${role}-msg`;
-            div.innerText = text;
-            l.appendChild(div);
-            l.scrollTop = l.scrollHeight;
+            const area = document.getElementById('msgArea');
+            area.innerHTML += `<div class="${role}-msg">${text}</div>`;
+            area.scrollTop = area.scrollHeight;
         }
 
-        // Camera & Scanner
-        document.getElementById('btn').onclick = async function() {
+        // Live Voice to Voice Logic
+        function toggleLiveVoice() {
+            if (!isListening) {
+                recognition.start();
+                isListening = true;
+                document.getElementById('status').innerText = "LISTENING...";
+                document.getElementById('voiceBtn').style.borderColor = "var(--green)";
+            } else {
+                recognition.stop();
+                isListening = false;
+                document.getElementById('status').innerText = "TAP TO SPEAK";
+            }
+        }
+
+        recognition.onresult = async (event) => {
+            const speech = event.results[0][0].transcript;
+            addMsg('user', speech);
+            const response = await getAIResponse(speech);
+            addMsg('ai', response);
+            speak(response);
+            isListening = false;
+            document.getElementById('status').innerText = "TAP TO SPEAK";
+        };
+
+        // Camera Setup
+        async function initCamera() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 document.getElementById('v').srcObject = s;
-                this.style.display = 'none';
-                document.getElementById('scanLine').classList.add('scan-active');
-                speak("সার্ভেইল্যান্স সিস্টেম অনলাইন। ফেস স্ক্যানিং সক্রিয়।");
-            } catch(e) { alert("ক্যামেরা পাওয়া যায়নি!"); }
-        };
+                speak("ক্যামেরা অনলাইন। আপনাকে দেখতে পাচ্ছি বস্।");
+            } catch(e) { console.log("Camera Error"); }
+        }
 
-        // Right Panel Coding Stream logic
+        // Coding Stream
         setInterval(() => {
-            const s = document.getElementById('stream');
+            const cs = document.getElementById('codeStream');
             const d = document.createElement('div');
-            d.className = 'code-line';
-            d.innerText = `[${new Date().toLocaleTimeString()}] > EXEC_SYSCALL_${Math.random().toString(16).slice(2,8).toUpperCase()}`;
-            s.appendChild(d);
-            if(s.childNodes.length > 25) s.removeChild(s.firstChild);
-        }, 800);
+            d.style.marginBottom = "2px";
+            d.innerText = `> SYNCING_AI_CORE_${Math.random().toString(16).slice(2,6).toUpperCase()}`;
+            cs.appendChild(d);
+            if(cs.childNodes.length > 25) cs.removeChild(cs.childNodes[1]);
+        }, 1000);
 
-        window.onload = () => { synth.getVoices(); };
+        window.onload = () => { initCamera(); synth.getVoices(); };
     </script>
 </body>
 </html>
+
