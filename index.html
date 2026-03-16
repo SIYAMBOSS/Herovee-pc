@@ -13,35 +13,34 @@
         .container { flex: 1; display: grid; grid-template-columns: 320px 1fr 380px; gap: 15px; padding: 15px; }
         .grid { background: rgba(10, 10, 10, 0.9); border: 1px solid #333; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
-        /* Left: Camera, Map, Coding */
+        /* Left Section */
         .left-grid { display: grid; grid-template-rows: 220px 200px 1fr; gap: 10px; border: none; }
         .panel { background: #050505; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; }
         .header { font-family: 'Orbitron'; font-size: 10px; color: var(--neon); padding: 8px; border-bottom: 1px solid #111; background: rgba(0,242,255,0.05); }
-        video { width: 100%; height: 100%; object-fit: cover; }
+        video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
         .map-frame { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg); }
         .coding-box { padding: 10px; font-family: monospace; font-size: 11px; color: var(--green); overflow-y: hidden; }
 
-        /* Middle: HEROVEE Voice Core */
+        /* Middle: HEROVEE AI Ring */
         .ai-core { align-items: center; justify-content: center; background: radial-gradient(circle, #0d001a 0%, #000 100%); }
         .herovee-btn { 
-            width: 250px; height: 250px; border-radius: 50%; border: 4px solid var(--purple);
+            width: 280px; height: 280px; border-radius: 50%; border: 4px solid var(--purple);
             display: flex; align-items: center; justify-content: center; flex-direction: column;
-            cursor: pointer; transition: 0.3s; position: relative; box-shadow: 0 0 30px rgba(188, 19, 254, 0.2);
+            cursor: pointer; transition: 0.3s; position: relative; box-shadow: 0 0 30px rgba(188, 19, 254, 0.3);
         }
         .herovee-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--purple); }
-        .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 24px; font-weight: bold; text-shadow: 0 0 10px var(--neon); }
-        .status-text { font-size: 12px; color: #666; margin-top: 10px; font-family: 'Orbitron'; }
-        .pulse-active { animation: pulse 0.5s infinite alternate; border-color: var(--neon) !important; }
-        @keyframes pulse { from { transform: scale(1); filter: brightness(1); } to { transform: scale(1.15); filter: brightness(1.5); } }
+        .herovee-text { font-family: 'Orbitron'; color: var(--neon); font-size: 28px; font-weight: bold; text-shadow: 0 0 15px var(--neon); }
+        .status-text { font-size: 12px; color: #666; margin-top: 10px; font-family: 'Orbitron'; letter-spacing: 2px; }
+        .pulse-active { animation: pulse 0.5s infinite alternate; border-color: var(--neon) !important; box-shadow: 0 0 60px var(--neon) !important; }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
 
-        /* Right: Text Chat Box */
+        /* Right: Chat Box */
         .chat-box { flex: 1; display: flex; flex-direction: column; background: #080808; }
         .msg-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .ai-msg { background: rgba(255, 0, 85, 0.1); border-left: 3px solid var(--pink); padding: 10px; border-radius: 4px; color: #ddd; align-self: flex-start; max-width: 90%; }
-        .user-msg { background: rgba(0, 242, 255, 0.1); border-right: 3px solid var(--neon); padding: 10px; border-radius: 4px; color: var(--neon); align-self: flex-end; }
+        .ai-msg { background: rgba(255, 0, 85, 0.1); border-left: 3px solid var(--pink); padding: 10px; border-radius: 4px; color: #ddd; align-self: flex-start; max-width: 90%; font-size: 14px; }
+        .user-msg { background: rgba(0, 242, 255, 0.1); border-right: 3px solid var(--neon); padding: 10px; border-radius: 4px; color: var(--neon); align-self: flex-end; font-size: 14px; }
         .input-area { padding: 15px; border-top: 1px solid #222; display: flex; gap: 10px; }
         input { flex: 1; background: #111; border: 1px solid #333; padding: 12px; color: #fff; border-radius: 8px; outline: none; }
-        input:focus { border-color: var(--neon); }
     </style>
 </head>
 <body>
@@ -53,11 +52,12 @@
                 <video id="v" autoplay muted playsinline></video>
             </div>
             <div class="panel">
-                <div class="header">GEO_TRACKING</div>
-                <iframe class="map-frame" src="https://maps.google.com/maps?q=Bangladesh&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+                <div class="header">GEO_TRACKING_WORLD</div>
+                <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d116833.83183484683!2d90.419233!3d23.810332!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1700000000000"></iframe>
             </div>
             <div class="panel coding-box" id="codeStream">
                 <div class="header" style="margin-bottom:5px;">CORE_KINETICS</div>
+                <div>> SYSTEM_INITIALIZED</div>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
         <div class="grid chat-box">
             <div class="header">SECURE_COMMUNICATION</div>
             <div class="msg-area" id="msgArea">
-                <div class="ai-msg">বস্, আমি প্রস্তুত। চ্যাট করতে পারেন অথবা মাঝখানে চাপ দিয়ে সরাসরি কথা বলতে পারেন।</div>
+                <div class="ai-msg">স্বাগতম বস্। আমি হিরোভী, আপনার পার্সোনাল এআই। আমি প্রস্তুত।</div>
             </div>
             <div class="input-area">
                 <input type="text" id="userInput" placeholder="এখানে মেসেজ লিখুন..." onkeypress="if(event.key==='Enter') sendChat()">
@@ -80,26 +80,30 @@
     </div>
 
     <script>
-        const GROQ_API_KEY = "gsk_vXG3L3RyTiB3LYUa1LgJWdyb3FY9ZHtWfrcCmKxJ45SnUSziqGg"; //
+        // আপনার সক্রিয় API Key
+        const GROQ_API_KEY = "gsk_vXG3L3RyTiB3LYUa1LgJWdyb3FY9ZHtWfrcCmKxJ45SnUSziqGg";
         const synth = window.speechSynthesis;
         let isListening = false;
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
         recognition.lang = 'bn-BD';
+        recognition.continuous = false;
 
-        // ন্যাচারাল ভয়েস ফাংশন
+        // এআই ভয়েস ফাংশন (গম্ভীর বাংলা)
         function speak(text) {
             if (synth.speaking) synth.cancel();
             const ut = new SpeechSynthesisUtterance(text);
             const voices = synth.getVoices();
+            // বাংলা মেল ভয়েস অপ্টিমাইজেশন
             ut.voice = voices.find(v => v.lang.includes('bn')) || voices[0];
-            ut.pitch = 1.0; ut.rate = 1.0;
+            ut.pitch = 0.8; 
+            ut.rate = 0.9;
             ut.onstart = () => document.getElementById('voiceBtn').classList.add('pulse-active');
             ut.onend = () => document.getElementById('voiceBtn').classList.remove('pulse-active');
             synth.speak(ut);
         }
 
-        // Groq AI API Call
+        // Groq API কল
         async function getAIResponse(prompt) {
             try {
                 const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -107,15 +111,18 @@
                     headers: { "Authorization": `Bearer ${GROQ_API_KEY}`, "Content-Type": "application/json" },
                     body: JSON.stringify({
                         model: "llama3-8b-8192",
-                        messages: [{ role: "system", content: "You are HEROVEE, an advanced AI. Speak in human-like Bengali." }, { role: "user", content: prompt }]
+                        messages: [
+                            { role: "system", content: "You are HEROVEE, an advanced AI created by Sadaf. Speak in smart, commanding Bengali." },
+                            { role: "user", content: prompt }
+                        ]
                     })
                 });
                 const data = await res.json();
                 return data.choices[0].message.content;
-            } catch (e) { return "বস্, কানেকশনে সমস্যা হচ্ছে।"; }
+            } catch (e) { return "বস্, সার্ভারের সাথে সংযোগ বিচ্ছিন্ন হয়েছে।"; }
         }
 
-        // Text Chat Logic
+        // চ্যাট লজিক
         async function sendChat() {
             const input = document.getElementById('userInput');
             const prompt = input.value.trim();
@@ -134,13 +141,12 @@
             area.scrollTop = area.scrollHeight;
         }
 
-        // Live Voice to Voice Logic
+        // লাইভ ভয়েস মোড
         function toggleLiveVoice() {
             if (!isListening) {
                 recognition.start();
                 isListening = true;
                 document.getElementById('status').innerText = "LISTENING...";
-                document.getElementById('voiceBtn').style.borderColor = "var(--green)";
             } else {
                 recognition.stop();
                 isListening = false;
@@ -158,27 +164,24 @@
             document.getElementById('status').innerText = "TAP TO SPEAK";
         };
 
-        // Camera Setup
+        // ক্যামেরা ইনিশিয়ালাইজেশন
         async function initCamera() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 document.getElementById('v').srcObject = s;
-                speak("ক্যামেরা অনলাইন। আপনাকে দেখতে পাচ্ছি বস্।");
-            } catch(e) { console.log("Camera Error"); }
+            } catch(e) { console.log("Camera Blocked"); }
         }
 
-        // Coding Stream
+        // কোডিং স্ট্রীম অ্যানিমেশন
         setInterval(() => {
             const cs = document.getElementById('codeStream');
             const d = document.createElement('div');
-            d.style.marginBottom = "2px";
-            d.innerText = `> SYNCING_AI_CORE_${Math.random().toString(16).slice(2,6).toUpperCase()}`;
+            d.innerText = `> SYNC_CORE_${Math.random().toString(16).slice(2,6).toUpperCase()}_OK`;
             cs.appendChild(d);
-            if(cs.childNodes.length > 25) cs.removeChild(cs.childNodes[1]);
-        }, 1000);
+            if(cs.childNodes.length > 20) cs.removeChild(cs.childNodes[1]);
+        }, 1500);
 
-        window.onload = () => { initCamera(); synth.getVoices(); };
+        window.onload = () => { initCamera(); };
     </script>
 </body>
 </html>
-
